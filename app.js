@@ -106,8 +106,8 @@ function drawElevationChart(id, pts) {
       datasets: [{
         label: 'Výška (m)',
         data: dataPts.map(p => p.ele),
-        borderColor: 'rgba(124,58,237,1)',
-        backgroundColor: 'rgba(124,58,237,0.15)',
+        borderColor: 'rgba(16, 185, 129, 1)',
+        backgroundColor: 'rgba(16, 185, 129, 0.15)',
         borderWidth: 2, fill: true, pointRadius: 0, tension: 0.3
       }]
     },
@@ -221,11 +221,11 @@ function replayMap(id) {
   s.movMarker.setLatLng(s.sampled[0]);
 
   // Set a slightly further zoom for a better overview during flyby
-  s.map.setZoom(10, { animate: true });
+  s.map.setZoom(12, { animate: true });
 
   let i = 0;
   let lastTime = 0;
-  const DURATION = 30000; // 30 seconds - very slow and smooth
+  const DURATION = 18000; // 30 seconds - very slow and smooth
   const startTime = performance.now();
 
   function step(currentTime) {
@@ -481,7 +481,10 @@ function initParticles() {
       if (i.x < 0) i.x = w; if (i.x > w) i.x = 0;
       if (i.y < 0) i.y = h; if (i.y > h) i.y = 0;
       ctx.beginPath(); ctx.arc(i.x, i.y, i.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(167, 139, 250, ${Math.max(0, i.a * 0.6)})`; ctx.fill();
+      // Nature colors: Soft green and golden pollen
+      const color = i.r > 1.5 ? '16, 185, 129' : '245, 158, 11';
+      ctx.fillStyle = `rgba(${color}, ${Math.max(0, i.a * 0.3)})`;
+      ctx.fill();
     });
     requestAnimationFrame(loop);
   }

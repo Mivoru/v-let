@@ -4,19 +4,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --map-btn: #06b6d4;
-  --bg: #0a0a14;
-  --bg2: #10101e;
-  --card-bg: #14142a;
-  --card-border: rgba(255,255,255,0.07);
-  --accent1: #7c3aed;
-  --accent2: #06b6d4;
-  --accent3: #f59e0b;
-  --text: #e2e8f0;
-  --text-muted: #94a3b8;
+  --map-btn: #0ea5e9;
+  --bg: #f8fafc;
+  --bg2: #f1f5f9;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-border: rgba(0,0,0,0.06);
+  --accent1: #10b981; /* Nature Green */
+  --accent2: #0ea5e9; /* Sky Blue */
+  --accent3: #f59e0b; /* Sun Amber */
+  --text: #0f172a;
+  --text-muted: #475569;
   --like-active: #ef4444;
-  --radius: 20px;
-  --shadow: 0 25px 60px rgba(0,0,0,0.5);
+  --radius: 24px;
+  --shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 
 html { scroll-behavior: smooth; }
@@ -27,6 +27,12 @@ body {
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(167, 139, 250, 0.05) 0px, transparent 50%);
+  background-attachment: fixed;
 }
 
 /* ==============================
@@ -47,69 +53,59 @@ body {
 .hero-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,0.35) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(6,182,212,0.2) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 20% 70%, rgba(245,158,11,0.15) 0%, transparent 60%),
-    linear-gradient(160deg, #0a0a14 0%, #0d0d22 100%);
-  animation: bgPulse 8s ease-in-out infinite alternate;
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 60%),
+    linear-gradient(160deg, #ffffff 0%, #f0f9ff 100%);
 }
 
-@keyframes bgPulse {
-  from { opacity: 0.8; }
-  to   { opacity: 1; }
-}
-
-/* Animated stars */
+/* Clouds decoration */
 .hero-bg::before {
   content: '';
   position: absolute; inset: 0;
   background-image:
-    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 30% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 55% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 75% 65%, rgba(255,255,255,0.4) 0%, transparent 100%),
-    radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(1px 1px at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 65% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
-    radial-gradient(1px 1px at 45% 85%, rgba(255,255,255,0.4) 0%, transparent 100%);
-  animation: twinkle 4s ease-in-out infinite alternate;
+    radial-gradient(100px 60px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(150px 80px at 40% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(120px 70px at 70% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(200px 100px at 90% 40%, rgba(255,255,255,0.5) 0%, transparent 100%);
+  filter: blur(40px);
+  animation: cloudsMove 20s ease-in-out infinite alternate;
 }
 
-@keyframes twinkle {
-  from { opacity: 0.6; }
-  to   { opacity: 1; }
+@keyframes cloudsMove {
+  from { transform: translateX(-20px); }
+  to   { transform: translateX(20px); }
 }
 
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 700px;
+  max-width: 800px;
 }
 
 .hero-badge {
   display: inline-block;
-  padding: 6px 20px;
-  background: rgba(124,58,237,0.25);
-  border: 1px solid rgba(124,58,237,0.5);
+  padding: 8px 24px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #a78bfa;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #059669;
   letter-spacing: 0.05em;
   margin-bottom: 1.5rem;
-  animation: fadeInDown 0.8s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(3.5rem, 9vw, 6.5rem);
   font-weight: 900;
-  line-height: 1.1;
-  background: linear-gradient(135deg, #fff 20%, #a78bfa 60%, #67e8f9 100%);
+  line-height: 1.05;
+  color: #0f172a;
+  background: linear-gradient(135deg, #0f172a 30%, #10b981 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 1.2rem;
-  animation: fadeInDown 0.9s ease;
+  margin-bottom: 1.5rem;
 }
 
 .hero-sub {
@@ -155,21 +151,23 @@ body {
 }
 
 .bento-box {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  border-radius: 24px;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   gap: 1.2rem;
   backdrop-filter: blur(12px);
-  transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), background 0.3s, border-color 0.3s;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+  transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 .bento-box:hover {
   transform: scale(1.05) translateY(-5px);
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(124,58,237,0.4);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--accent1);
+  box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
 }
 
 .b-tall { grid-row: span 2; flex-direction: column; justify-content: center; text-align: center; }
@@ -263,8 +261,8 @@ main { padding-bottom: 4rem; }
 
 .trip-card:hover {
   transform: translateY(-8px) scale(1.01);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 40px rgba(124,58,237,0.2);
-  border-color: rgba(124,58,237,0.3);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.1), 0 0 30px rgba(16,185,129,0.1);
+  border-color: rgba(16,185,129,0.2);
 }
 
 .card-badge {
@@ -419,19 +417,19 @@ main { padding-bottom: 4rem; }
 
 /* GPX Leaflet Map */
 .gpx-wrap {
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
-  background: #0a0a0a;
-  border: 1px solid rgba(255,255,255,0.08);
+  background: #f8fafc;
+  border: 1px solid rgba(0,0,0,0.08);
   margin-bottom: 1rem;
 }
 
 .ele-wrap {
   width: 100%;
-  height: 150px; /* Taller for better axis visibility */
+  height: 150px;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.4);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(16, 185, 129, 0.03);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .gpx-label {
@@ -511,9 +509,9 @@ main { padding-bottom: 4rem; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.5rem;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
+  background: rgba(16,185,129,0.05);
+  border: 1px solid rgba(16,185,129,0.08);
+  border-radius: 16px;
   padding: 1rem 0.5rem;
 }
 
@@ -529,7 +527,7 @@ main { padding-bottom: 4rem; }
 .stat-val {
   font-size: 0.95rem;
   font-weight: 800;
-  color: #fff;
+  color: #0f172a;
   white-space: nowrap;
 }
 
@@ -600,9 +598,9 @@ main { padding-bottom: 4rem; }
 .weather-wrap {
   margin: 0 1.5rem 1rem;
   padding: 0.8rem;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.04);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  border-radius: 16px;
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
