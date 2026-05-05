@@ -170,92 +170,98 @@ function setupMapObserver() {
 }
 
 // ============================================================
-//  LIKE SYSTEM – shared counters via CountAPI
-//  Count = global (all browsers)  |  Heart = per-device (localStorage)
+//  FIREBASE CONFIG
+//  → Vyplň svými hodnotami z Firebase Console (viz návod níže)
+//  → https://console.firebase.google.com
+// ============================================================
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCn0GmOGrLTy2IEXYlF3q3CBjWy2BBdpDI",
+  authDomain: "vylet-dff14.firebaseapp.com",
+  databaseURL: "https://vylet-dff14-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "vylet-dff14",
+  storageBucket: "vylet-dff14.firebasestorage.app",
+  messagingSenderId: "933796149925",
+  appId: "1:933796149925:web:d85c476fe6a9916e4feb4c",
+  measurementId: "G-RCVSCBMJQW"
+};
+
+// ============================================================
+//  LIKE SYSTEM – Firebase Realtime Database
+//  ❤️ počet   = sdílený pro všechny v reálném čase
+//  ♥ srdíčko = per-zařízení (localStorage)
 // ============================================================
 
-// Unique namespace for this project
-const NS = 'vylety2026-xk9m3p';
-const COUNT_BASE = 'https://api.countapi.xyz';
-
-// Per-device liked state
 function loadLiked() {
   try { return JSON.parse(localStorage.getItem('vylet_liked_2026')) || {}; }
   catch { return {}; }
 }
-function saveLiked(liked) { localStorage.setItem('vylet_liked_2026', JSON.stringify(liked)); }
+function saveLiked(l) { localStorage.setItem('vylet_liked_2026', JSON.stringify(l)); }
 
-let liked  = loadLiked();
-let counts = { 1: 0, 2: 0, 3: 0, 4: 0 }; // filled from API
-let apiOk  = false; // whether CountAPI is reachable
+let liked    = loadLiked();
+let counts   = { 1: 0, 2: 0, 3: 0, 4: 0 };
+let fireDb   = null;
+let likesRef = null;
 
-// Fetch all counts from CountAPI on startup
-async function fetchAllCounts() {
+function initFirebase() {
   try {
-    const results = await Promise.all(
-      TRIPS.map(t =>
-        fetch(`${COUNT_BASE}/get/${NS}/trip${t.id}`)
-          .then(r => r.json())
-          .catch(() => ({ value: 0 }))
-      )
-    );
-    results.forEach((r, i) => { counts[i + 1] = r.value || 0; });
-    apiOk = true;
-  } catch {
-    // Fallback to localStorage mirror
-    try {
-      const saved = JSON.parse(localStorage.getItem('vylet_counts_2026')) || {};
-      TRIPS.forEach(t => { counts[t.id] = saved[t.id] || 0; });
-    } catch { /* ignore */ }
-  }
-  renderAll();
-}
+    // Pokud config není vyplněn → přeskočit
+    if (!FIREBASE_CONFIG.databaseURL || FIREBASE_CONFIG.databaseURL.includes('TVUJ')) {
+      console.info('Firebase: config není nastaven – liky jsou jen lokální.');
+      return;
+    }
+    firebase.initializeApp(FIREBASE_CONFIG);
+    fireDb   = firebase.database();
+    likesRef = fireDb.ref('likes');
 
-// Save counts mirror to localStorage as offline fallback
-function saveCounts() {
-  localStorage.setItem('vylet_counts_2026', JSON.stringify(counts));
+    // 🔴 Real-time listener – všichni vidí změny okamžitě
+    likesRef.on('value', snapshot => {
+      const data = snapshot.val() || {};
+      TRIPS.forEach(t => { counts[t.id] = data[t.id] || 0; });
+      renderAll();
+    });
+  } catch (e) {
+    console.warn('Firebase init selhal:', e);
+  }
 }
 
 async function toggleLike(id) {
-  const btn = document.getElementById('like-' + id);
-  btn.disabled = true; // prevent double-click during request
+  const btn     = document.getElementById('like-' + id);
+  btn.disabled  = true;
+  const wasLiked = !!liked[id];
 
-  if (liked[id]) {
-    // Unlike: decrement
+  // Optimistická aktualizace UI (okamžitá zpětná vazba)
+  if (wasLiked) {
     liked[id] = false;
     btn.classList.remove('liked', 'just-liked');
-    saveLiked(liked);
-
-    try {
-      const res = await fetch(`${COUNT_BASE}/update/${NS}/trip${id}?amount=-1`);
-      const data = await res.json();
-      counts[id] = Math.max(0, data.value || 0);
-    } catch {
-      counts[id] = Math.max(0, counts[id] - 1);
-    }
   } else {
-    // Like: increment
     liked[id] = true;
     btn.classList.add('liked');
     btn.classList.remove('just-liked');
     void btn.offsetWidth;
     btn.classList.add('just-liked');
     setTimeout(() => btn.classList.remove('just-liked'), 500);
-    saveLiked(liked);
     spawnConfetti(btn);
+  }
+  saveLiked(liked);
 
+  if (likesRef) {
+    // Firebase – atomická transakce (bezpečná při souběžných kliknutích)
     try {
-      const res = await fetch(`${COUNT_BASE}/hit/${NS}/trip${id}`);
-      const data = await res.json();
-      counts[id] = data.value || counts[id] + 1;
-    } catch {
-      counts[id]++;
+      await fireDb.ref(`likes/${id}`).transaction(current =>
+        Math.max(0, (current || 0) + (wasLiked ? -1 : 1))
+      );
+      // Listener výše automaticky překreslí s novým počtem
+    } catch (e) {
+      counts[id] = Math.max(0, counts[id] + (wasLiked ? -1 : 1));
+      renderAll();
     }
+  } else {
+    // Fallback: žádný server → jen lokálně
+    counts[id] = Math.max(0, counts[id] + (wasLiked ? -1 : 1));
+    renderAll();
   }
 
-  saveCounts();
   btn.disabled = false;
-  renderAll();
 }
 
 function renderButtons() {
@@ -338,8 +344,8 @@ document.head.appendChild(markerStyle);
 //  INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  renderAll();            // show 0 counts immediately
-  fetchAllCounts();       // load shared counts in background (no await – non-blocking)
+  initFirebase();     // připojí Firebase + real-time listener
+  renderAll();
   initScrollAnim();
   // Init all Leaflet maps in parallel
   await Promise.all(TRIPS.map(t => initLeafletMap(t.id, t.gpx)));
