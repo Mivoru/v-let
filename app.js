@@ -215,20 +215,45 @@ async function initLeafletMap(id, gpxFile) {
 function replayMap(id) {
   const s = mapInstances[id];
   if (!s) return;
-  if (s.timer) clearInterval(s.timer);
+  if (s.timer) cancelAnimationFrame(s.timer);
+  
   s.animPoly.setLatLngs([]);
   s.movMarker.setLatLng(s.sampled[0]);
+  
+  // Set a closer zoom for the flyby
+  s.map.setZoom(14, { animate: true });
 
   let i = 0;
-  const DURATION = 5000; // ms total
-  const interval = DURATION / s.sampled.length;
+  let lastTime = 0;
+  const DURATION = 6000; // slightly longer for smoother panning
+  const startTime = performance.now();
 
-  s.timer = setInterval(() => {
-    if (i >= s.sampled.length) { clearInterval(s.timer); return; }
-    s.animPoly.addLatLng(s.sampled[i]);
-    s.movMarker.setLatLng(s.sampled[i]);
-    i++;
-  }, interval);
+  function step(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / DURATION, 1);
+    
+    // Calculate index based on progress
+    const targetIndex = Math.floor(progress * (s.sampled.length - 1));
+    
+    while (i <= targetIndex) {
+      s.animPoly.addLatLng(s.sampled[i]);
+      s.movMarker.setLatLng(s.sampled[i]);
+      // Center map on marker
+      s.map.panTo(s.sampled[i], { animate: false });
+      i++;
+    }
+
+    if (progress < 1) {
+      s.timer = requestAnimationFrame(step);
+    } else {
+      // Animation finished -> Zoom out to show full route
+      setTimeout(() => {
+        s.map.fitBounds(L.latLngBounds(s.latLngs), { padding: [18, 18], animate: true });
+      }, 500);
+    }
+  }
+  
+  s.timer = requestAnimationFrame(step);
 }
 
 // Auto-play when map scrolls into view
