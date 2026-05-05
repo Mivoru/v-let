@@ -220,12 +220,12 @@ function replayMap(id) {
   s.animPoly.setLatLngs([]);
   s.movMarker.setLatLng(s.sampled[0]);
   
-  // Set a closer zoom for the flyby
-  s.map.setZoom(14, { animate: true });
+  // Set a slightly further zoom for a better overview during flyby
+  s.map.setZoom(12, { animate: true });
 
   let i = 0;
   let lastTime = 0;
-  const DURATION = 6000; // slightly longer for smoother panning
+  const DURATION = 12000; // 12 seconds for a slow, cinematic flyby
   const startTime = performance.now();
 
   function step(currentTime) {
