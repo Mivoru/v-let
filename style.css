@@ -23,15 +23,15 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Outfit', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  background: #ffffff !important; /* Force pure white base */
+  color: #0f172a;
   overflow-x: hidden;
   line-height: 1.6;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(167, 139, 250, 0.05) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%) !important;
   background-attachment: fixed;
 }
 
@@ -211,10 +211,7 @@ main { padding-bottom: 4rem; }
 .section-head h2 {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 900;
-  background: linear-gradient(135deg, #fff, #a78bfa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #0f172a;
   margin-bottom: 0.6rem;
 }
 
@@ -268,10 +265,10 @@ main { padding-bottom: 4rem; }
 .card-badge {
   position: absolute;
   top: 14px; left: 14px;
-  background: rgba(10,10,20,0.85);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(8px);
-  color: #fff;
+  color: #0f172a;
   font-size: 0.78rem;
   font-weight: 700;
   padding: 5px 14px;
@@ -626,7 +623,7 @@ main { padding-bottom: 4rem; }
 }
 .w-date { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
 .w-icon { width: 32px; height: 32px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
-.w-temp { font-size: 0.85rem; font-weight: 700; color: #fff; }
+.w-temp { font-size: 0.85rem; font-weight: 700; color: #0f172a; }
 
 /* Card Footer */
 .card-footer {
@@ -714,12 +711,9 @@ main { padding-bottom: 4rem; }
 
 .leaderboard h2 {
   text-align: center;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 900;
-  background: linear-gradient(135deg, #fbbf24, #f59e0b);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #0f172a;
   margin-bottom: 0.5rem;
 }
 
@@ -755,16 +749,16 @@ main { padding-bottom: 4rem; }
 }
 
 .lb-item:first-child {
-  border-color: rgba(251,191,36,0.4);
-  background: rgba(251,191,36,0.07);
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.05);
 }
 .lb-item:nth-child(2) {
-  border-color: rgba(148,163,184,0.3);
-  background: rgba(148,163,184,0.05);
+  border-color: rgba(14, 165, 233, 0.2);
+  background: rgba(14, 165, 233, 0.03);
 }
 .lb-item:nth-child(3) {
-  border-color: rgba(217,119,6,0.3);
-  background: rgba(217,119,6,0.05);
+  border-color: rgba(245, 158, 11, 0.2);
+  background: rgba(245, 158, 11, 0.03);
 }
 
 .lb-rank {
@@ -782,7 +776,7 @@ main { padding-bottom: 4rem; }
 .lb-bar-wrap {
   width: 100%;
   height: 6px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 50px;
   overflow: hidden;
   margin-top: 4px;
@@ -826,13 +820,13 @@ main { padding-bottom: 4rem; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Floating particles decoration */
+/* Bottom fade protection (light) */
 body::after {
   content: '';
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  height: 200px;
-  background: linear-gradient(to top, rgba(10,10,20,0.8), transparent);
+  height: 150px;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent);
   pointer-events: none;
   z-index: 0;
 }

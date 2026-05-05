@@ -221,11 +221,11 @@ function replayMap(id) {
   s.movMarker.setLatLng(s.sampled[0]);
 
   // Set a slightly further zoom for a better overview during flyby
-  s.map.setZoom(12, { animate: true });
+  s.map.setZoom(14, { animate: true });
 
   let i = 0;
   let lastTime = 0;
-  const DURATION = 18000; // 30 seconds - very slow and smooth
+  const DURATION = 8000; // 30 seconds - very slow and smooth
   const startTime = performance.now();
 
   function step(currentTime) {
