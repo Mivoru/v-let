@@ -139,34 +139,65 @@ body {
   box-shadow: 0 0 60px rgba(124,58,237,0.7);
 }
 
-.hero-stats {
+/* ==============================
+   BENTO GRID (Hero)
+   ============================== */
+.bento-grid {
   position: relative;
   z-index: 2;
-  display: flex;
-  gap: 3rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1rem;
   margin-top: 4rem;
+  max-width: 800px;
   animation: fadeInUp 1.1s ease;
 }
 
-.hstat {
-  text-align: center;
+.bento-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  backdrop-filter: blur(12px);
+  transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6), background 0.3s, border-color 0.3s;
 }
 
+.bento-box:hover {
+  transform: scale(1.05) translateY(-5px);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(124,58,237,0.4);
+}
+
+.b-tall { grid-row: span 2; flex-direction: column; justify-content: center; text-align: center; }
+.b-wide { grid-column: span 2; }
+
+.bento-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 10px rgba(124,58,237,0.5));
+}
+
+.bento-content { display: flex; flex-direction: column; }
+
 .hstat-n {
-  display: block;
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   font-weight: 900;
   background: linear-gradient(135deg, #fff, #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  line-height: 1.1;
 }
 
 .hstat-l {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
 }
 
 /* ==============================
@@ -277,12 +308,12 @@ main { padding-bottom: 4rem; }
   align-items: center;
   justify-content: center;
   z-index: 5;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.2s, transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   opacity: 0;
 }
 
 .card-gallery:hover .gal-btn { opacity: 1; }
-.gal-btn:hover { background: rgba(124,58,237,0.7); transform: translateY(-50%) scale(1.1); }
+.gal-btn:hover { background: rgba(124,58,237,0.7); transform: translateY(-50%) scale(1.2); }
 .gal-prev { left: 10px; }
 .gal-next { right: 10px; }
 
@@ -377,7 +408,48 @@ main { padding-bottom: 4rem; }
 
 .rp-text { color: var(--text-muted); }
 
-/* GPX Leaflet Map */
+/* ==============================
+   PREMIUM FEATURES (3D, BG, ELE)
+   ============================== */
+#particles-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.trip-card {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: perspective(1000px) rotateX(0) rotateY(0); /* Default */
+}
+
+.card-glare {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 20px;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 50%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+}
+.trip-card:hover .card-glare { opacity: 1; }
+
+.ele-wrap {
+  width: 100%;
+  height: 50px;
+  background: rgba(0,0,0,0.4);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.ele-wrap canvas { width: 100% !important; height: 100% !important; display: block; }
+
+/* ==============================
+   GPX Leaflet Map
+   ============================== */
 .gpx-wrap {
   border-radius: 14px;
   overflow: hidden;
@@ -611,7 +683,7 @@ main { padding-bottom: 4rem; }
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--text-muted);
-  transition: all 0.25s cubic-bezier(.22,.68,0,1.4);
+  transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   position: relative;
   overflow: hidden;
 }
@@ -627,7 +699,7 @@ main { padding-bottom: 4rem; }
 .like-btn:hover::before { opacity: 1; }
 
 .like-btn:hover {
-  transform: scale(1.08);
+  transform: scale(1.1);
   border-color: rgba(239,68,68,0.5);
 }
 
@@ -640,12 +712,12 @@ main { padding-bottom: 4rem; }
 
 .like-heart {
   font-size: 1.1rem;
-  transition: transform 0.3s cubic-bezier(.22,.68,0,1.8);
+  transition: transform 0.5s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: inline-block;
 }
 
-.like-btn:hover .like-heart { transform: scale(1.3); }
-.like-btn.liked .like-heart  { transform: scale(1.2); }
+.like-btn:hover .like-heart { transform: scale(1.35); }
+.like-btn.liked .like-heart  { transform: scale(1.25); }
 
 /* Pulse animation on like */
 @keyframes heartPop {

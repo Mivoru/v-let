@@ -13,9 +13,11 @@
 <!-- Firebase Realtime Database -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<canvas id="particles-bg"></canvas>
 
 <header class="hero">
   <div class="hero-bg"></div>
@@ -25,10 +27,28 @@
     <p class="hero-sub">4 úžasné trasy, různé krásy. Laikni svůj favorit!</p>
     <a href="#trips" class="hero-btn">Zobrazit výlety ↓</a>
   </div>
-  <div class="hero-stats">
-    <div class="hstat"><span class="hstat-n">4</span><span class="hstat-l">Trasy</span></div>
-    <div class="hstat"><span class="hstat-n">67 km</span><span class="hstat-l">Celkem</span></div>
-    <div class="hstat"><span class="hstat-n">~21 h</span><span class="hstat-l">Celkový čas</span></div>
+  <div class="bento-grid">
+    <div class="bento-box b-tall">
+      <div class="bento-icon">🎒</div>
+      <div class="bento-content">
+        <span class="hstat-n">4</span>
+        <span class="hstat-l">Top Trasy</span>
+      </div>
+    </div>
+    <div class="bento-box b-wide">
+      <div class="bento-icon">🥾</div>
+      <div class="bento-content">
+        <span class="hstat-n">67 km</span>
+        <span class="hstat-l">Celková vzdálenost dobrodružství</span>
+      </div>
+    </div>
+    <div class="bento-box">
+      <div class="bento-icon">⏱️</div>
+      <div class="bento-content">
+        <span class="hstat-n">21 h</span>
+        <span class="hstat-l">Čistého času</span>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -42,6 +62,7 @@
 
     <!-- KARTA 1 – Saské Švýcarsko -->
     <article class="trip-card" id="card-1">
+      <div class="card-glare"></div>
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-1">
           <img src="img/schmilka_labe.jpg" alt="Koryto Labe u Schmilky" class="gal-img">
@@ -72,6 +93,7 @@
         <div class="gpx-wrap">
           <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(1)">▶ Přehrát</button></div>
           <div class="gpx-tilt-wrap"><div id="map-1" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-1"></canvas></div>
         </div>
         <div class="attractions">
           <h4>✨ Hlavní atrakce</h4>
@@ -99,6 +121,7 @@
 
     <!-- KARTA 2 – Kokořínský důl -->
     <article class="trip-card" id="card-2">
+      <div class="card-glare"></div>
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-2">
           <img src="img/kokorin_dul.jpg" alt="Kokořínský důl" class="gal-img">
@@ -129,6 +152,7 @@
         <div class="gpx-wrap">
           <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(2)">▶ Přehrát</button></div>
           <div class="gpx-tilt-wrap"><div id="map-2" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-2"></canvas></div>
         </div>
         <div class="attractions">
           <h4>✨ Hlavní atrakce</h4>
@@ -156,6 +180,7 @@
 
     <!-- KARTA 3 – Máchovo jezero + Bezděz -->
     <article class="trip-card" id="card-3">
+      <div class="card-glare"></div>
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-3">
           <img src="img/machovo.jpg" alt="Máchovo jezero" class="gal-img">
@@ -186,6 +211,7 @@
         <div class="gpx-wrap">
           <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(3)">▶ Přehrát</button></div>
           <div class="gpx-tilt-wrap"><div id="map-3" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-3"></canvas></div>
         </div>
         <div class="attractions">
           <h4>✨ Hlavní atrakce</h4>
@@ -213,6 +239,7 @@
 
     <!-- KARTA 4 – Tolštejn + Jedlová -->
     <article class="trip-card" id="card-4">
+      <div class="card-glare"></div>
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-4">
           <img src="img/tolstejn.jpg" alt="Zřícenina Tolštejn" class="gal-img">
@@ -243,6 +270,7 @@
         <div class="gpx-wrap">
           <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(4)">▶ Přehrát</button></div>
           <div class="gpx-tilt-wrap"><div id="map-4" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-4"></canvas></div>
         </div>
         <div class="attractions">
           <h4>✨ Hlavní atrakce</h4>

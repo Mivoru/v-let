@@ -73,7 +73,7 @@ async function fetchWeather() {
 }
 
 // ============================================================
-//  GPX PARSER
+//  GPX PARSER & ELEVATION
 // ============================================================
 async function fetchGPX(file) {
   try {
@@ -81,11 +81,40 @@ async function fetchGPX(file) {
     if (!res.ok) throw new Error('failed');
     const text = await res.text();
     const xml = new DOMParser().parseFromString(text, 'text/xml');
-    return [...xml.querySelectorAll('trkpt')].map(pt => [
-      parseFloat(pt.getAttribute('lat')),
-      parseFloat(pt.getAttribute('lon')),
-    ]);
+    return [...xml.querySelectorAll('trkpt')].map(pt => {
+      const ele = pt.querySelector('ele');
+      return [
+        parseFloat(pt.getAttribute('lat')),
+        parseFloat(pt.getAttribute('lon')),
+        ele ? parseFloat(ele.textContent) : 0
+      ];
+    });
   } catch { return []; }
+}
+
+function drawElevationChart(id, eles) {
+  const ctx = document.getElementById('ele-' + id);
+  if (!ctx || !eles.length || !window.Chart) return;
+  const step = Math.max(1, Math.floor(eles.length / 100));
+  const data = eles.filter((_, i) => i % step === 0);
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.map((_, i) => i),
+      datasets: [{
+        data,
+        borderColor: 'rgba(124,58,237,0.8)',
+        backgroundColor: 'rgba(124,58,237,0.2)',
+        borderWidth: 1.5, fill: true, pointRadius: 0, tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: { x: { display: false }, y: { display: false, min: Math.min(...data) - 50 } },
+      layout: { padding: 0 }
+    }
+  });
 }
 
 // ============================================================
@@ -113,28 +142,23 @@ async function initLeafletMap(id, gpxFile) {
   const container = document.getElementById('map-' + id);
   if (!container) return;
 
-  const latLngs = await fetchGPX(gpxFile);
-  if (latLngs.length < 2) {
-    container.innerHTML = '<div style="color:#666;padding:20px;text-align:center;font-size:.8rem">Mapa není k dispozici offline</div>';
+  const pts = await fetchGPX(gpxFile);
+  if (pts.length < 2) {
+    container.innerHTML = '<div style="color:#666;padding:20px;text-align:center;font-size:.8rem">Mapa není k dispozici</div>';
     return;
   }
 
-  // Init map – no controls, pointer-events off (CSS), tile only
+  const latLngs = pts.map(p => [p[0], p[1]]);
+  const eles = pts.map(p => p[2]);
+  drawElevationChart(id, eles);
+
   const map = L.map(container, {
-    zoomControl: false,
-    attributionControl: true,
-    dragging: false,
-    scrollWheelZoom: false,
-    doubleClickZoom: false,
-    touchZoom: false,
-    keyboard: false,
+    zoomControl: false, attributionControl: true, dragging: false,
+    scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false, keyboard: false,
   });
 
   L.tileLayer(TILE_URL, { attribution: TILE_ATTR, maxZoom: 17 }).addTo(map);
-
-  // Fit to route
-  const bounds = L.latLngBounds(latLngs);
-  map.fitBounds(bounds, { padding: [18, 18] });
+  map.fitBounds(L.latLngBounds(latLngs), { padding: [18, 18] });
 
   // Ghost full route (dim)
   const ghostPoly = L.polyline(latLngs, {
@@ -379,6 +403,76 @@ function initScrollAnim() {
   });
 }
 
+// ============================================================
+//  PREMIUM: 3D CARD HOVER & PARTICLES
+// ============================================================
+function init3DCards() {
+  document.querySelectorAll('.trip-card').forEach(card => {
+    const glare = card.querySelector('.card-glare');
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      const xc = rect.width / 2, yc = rect.height / 2;
+      const rx = -(y - yc) / yc * 8, ry = (x - xc) / xc * 8;
+      card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.01,1.01,1.01)`;
+      if(glare) glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.18) 0%, transparent 60%)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)`;
+      if(glare) glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 50%)`;
+    });
+  });
+}
+
+function initParticles() {
+  const cvs = document.getElementById('particles-bg');
+  if(!cvs) return;
+  const ctx = cvs.getContext('2d');
+  let w = cvs.width = window.innerWidth, h = cvs.height = window.innerHeight;
+  const p = Array.from({length: 40}, () => ({
+    x: Math.random() * w, y: Math.random() * h,
+    r: Math.random() * 2 + 0.5,
+    vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+    a: Math.random(), da: (Math.random() - 0.5) * 0.02
+  }));
+  function loop() {
+    ctx.clearRect(0, 0, w, h);
+    p.forEach(i => {
+      i.x += i.vx; i.y += i.vy; i.a += i.da;
+      if(i.a > 1 || i.a < 0) i.da *= -1;
+      if(i.x < 0) i.x = w; if(i.x > w) i.x = 0;
+      if(i.y < 0) i.y = h; if(i.y > h) i.y = 0;
+      ctx.beginPath(); ctx.arc(i.x, i.y, i.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(167, 139, 250, ${Math.max(0, i.a * 0.6)})`; ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+  window.addEventListener('resize', () => { w = cvs.width = window.innerWidth; h = cvs.height = window.innerHeight; });
+}
+
+function initScrollParallax() {
+  const heroContent = document.querySelector('.hero-content');
+  const bentoGrid = document.querySelector('.bento-grid');
+  
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    if(scrollY < window.innerHeight) {
+      const op = Math.max(0, 1 - (scrollY / 400));
+      const ty = scrollY * 0.4;
+      
+      if(heroContent) {
+        heroContent.style.transform = `translateY(${ty}px)`;
+        heroContent.style.opacity = op;
+      }
+      if(bentoGrid) {
+        bentoGrid.style.transform = `translateY(${ty * 1.2}px)`;
+        bentoGrid.style.opacity = op;
+      }
+    }
+  }, { passive: true });
+}
+
 // Keyframe for marker pulse (injected into <head>)
 const markerStyle = document.createElement('style');
 markerStyle.textContent = `@keyframes markerPulse { from{box-shadow:0 0 0 3px #06b6d455,0 0 14px #06b6d4aa} to{box-shadow:0 0 0 8px #06b6d422,0 0 24px #06b6d488} }`;
@@ -390,6 +484,9 @@ document.head.appendChild(markerStyle);
 document.addEventListener('DOMContentLoaded', async () => {
   initFirebase();
   renderAll();
+  init3DCards();
+  initParticles();
+  initScrollParallax();
   initScrollAnim();
   fetchWeather(); // asynchronní načtení počasí
   // Init all Leaflet maps in parallel
