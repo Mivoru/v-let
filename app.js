@@ -496,28 +496,43 @@ function initScrollParallax() {
   const heroContent = document.querySelector('.hero-content');
   const bentoGrid = document.querySelector('.bento-grid');
   const decoMountains = document.querySelector('.deco-mountains');
+  const decoRocks1 = document.querySelector('.deco-rocks-1');
+  const decoRocks2 = document.querySelector('.deco-rocks-2');
   const decoFern1 = document.querySelector('.deco-fern-1');
   const decoFern2 = document.querySelector('.deco-fern-2');
   const decoPine1 = document.querySelector('.deco-pine-1');
   const decoPine2 = document.querySelector('.deco-pine-2');
+  
+  // Hero Floating Previews
+  const previews = document.querySelectorAll('.h-prev');
 
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
 
     // Hero parallax
-    if (scrollY < window.innerHeight) {
-      const op = Math.max(0, 1 - (scrollY / 400));
+    if (scrollY < window.innerHeight * 1.5) {
+      const op = Math.max(0, 1 - (scrollY / 600));
       const ty = scrollY * 0.4;
       if (heroContent) { heroContent.style.transform = `translateY(${ty}px)`; heroContent.style.opacity = op; }
       if (bentoGrid) { bentoGrid.style.transform = `translateY(${ty * 1.2}px)`; bentoGrid.style.opacity = op; }
+      
+      // Animate floating trip previews at different speeds
+      previews.forEach((p, i) => {
+        const speed = 0.1 + (i * 0.15);
+        const rot = (i % 2 === 0 ? -10 : 10) + (scrollY * 0.02);
+        p.style.transform = `translateY(${scrollY * speed}px) rotate(${rot}deg)`;
+        p.style.opacity = Math.max(0, (i === 0 ? 0.8 : 0.6) - (scrollY / 800));
+      });
     }
 
-    // Nature Parallax (different speeds for 3D depth)
+    // Nature Parallax
     if (decoMountains) decoMountains.style.transform = `translateY(${scrollY * 0.1}px)`;
-    if (decoFern1) decoFern1.style.transform = `translateY(${scrollY * -0.15}px) rotate(15deg)`;
-    if (decoFern2) decoFern2.style.transform = `translateY(${scrollY * -0.08}px) rotate(-25deg) scaleX(-1)`;
-    if (decoPine1) decoPine1.style.transform = `translateY(${scrollY * 0.2}px) rotate(45deg)`;
-    if (decoPine2) decoPine2.style.transform = `translateY(${scrollY * 0.12}px) rotate(-15deg)`;
+    if (decoRocks1)    decoRocks1.style.transform    = `translateY(${scrollY * -0.2}px) rotate(-10deg)`;
+    if (decoRocks2)    decoRocks2.style.transform    = `translateY(${scrollY * 0.15}px) rotate(20deg) scaleX(-1)`;
+    if (decoFern1)     decoFern1.style.transform     = `translateY(${scrollY * -0.15}px) rotate(15deg)`;
+    if (decoFern2)     decoFern2.style.transform     = `translateY(${scrollY * -0.08}px) rotate(-25deg) scaleX(-1)`;
+    if (decoPine1)     decoPine1.style.transform     = `translateY(${scrollY * 0.2}px) rotate(45deg)`;
+    if (decoPine2)     decoPine2.style.transform     = `translateY(${scrollY * 0.12}px) rotate(-15deg)`;
   }, { passive: true });
 }
 
