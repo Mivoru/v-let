@@ -2,10 +2,10 @@
 //  CONFIG
 // ============================================================
 const TRIPS = [
-  { id: 1, name: '🏔️ Saské Švýcarsko – Schmilka', gpx: 'export%20(1).gpx' },
-  { id: 2, name: '🏰 Kokořínský důl & Hrad Kokořín', gpx: 'export.gpx' },
-  { id: 3, name: '🏖️ Máchovo jezero & Bezděz',      gpx: 'export%20(2).gpx' },
-  { id: 4, name: '🌲 Tolštejn & Jedlová',           gpx: 'export%20(3).gpx' },
+  { id: 1, name: '🏔️ Saské Švýcarsko – Schmilka', gpx: 'export%20(1).gpx', lat: 50.89, lon: 14.23 },
+  { id: 2, name: '🏰 Kokořínský důl & Hrad Kokořín', gpx: 'export.gpx',       lat: 50.43, lon: 14.63 },
+  { id: 3, name: '🏖️ Máchovo jezero & Bezděz',      gpx: 'export%20(2).gpx', lat: 50.56, lon: 14.65 },
+  { id: 4, name: '🌲 Tolštejn & Jedlová',           gpx: 'export%20(3).gpx', lat: 50.86, lon: 14.56 },
 ];
 
 // ============================================================
@@ -27,6 +27,50 @@ function setGal(id, idx) {
 }
 function galNext(id) { setGal(id, galState[id] + 1); }
 function galPrev(id) { setGal(id, galState[id] - 1); }
+
+// ============================================================
+//  WEATHER API
+// ============================================================
+const OWM_API_KEY = 'dda6c46e74b95dbeffeb910168f345c5';
+
+async function fetchWeather() {
+  const days = ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'];
+  for (const t of TRIPS) {
+    const wrap = document.getElementById('weather-' + t.id);
+    if (!wrap) continue;
+    try {
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${t.lat}&lon=${t.lon}&appid=${OWM_API_KEY}&units=metric&lang=cz`);
+      const data = await res.json();
+      
+      const daily = {};
+      data.list.forEach(item => {
+        const date = item.dt_txt.split(' ')[0];
+        if (!daily[date] || item.dt_txt.includes('12:00:00')) {
+          daily[date] = item;
+        }
+      });
+
+      const itemsHtml = Object.values(daily).slice(0, 5).map(item => {
+        const d = new Date(item.dt_txt);
+        const dayName = days[d.getDay()];
+        const icon = item.weather[0].icon;
+        const temp = Math.round(item.main.temp);
+        const desc = item.weather[0].description;
+        return `
+          <div class="weather-day" title="${desc}">
+            <div class="w-date">${dayName}</div>
+            <img class="w-icon" src="https://openweathermap.org/img/wn/${icon}.png" alt="${desc}">
+            <div class="w-temp">${temp}°</div>
+          </div>
+        `;
+      }).join('');
+      
+      wrap.innerHTML = itemsHtml;
+    } catch (e) {
+      wrap.innerHTML = '<div class="weather-loading" style="color:#ef4444">Nelze načíst počasí</div>';
+    }
+  }
+}
 
 // ============================================================
 //  GPX PARSER
@@ -344,9 +388,10 @@ document.head.appendChild(markerStyle);
 //  INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  initFirebase();     // připojí Firebase + real-time listener
+  initFirebase();
   renderAll();
   initScrollAnim();
+  fetchWeather(); // asynchronní načtení počasí
   // Init all Leaflet maps in parallel
   await Promise.all(TRIPS.map(t => initLeafletMap(t.id, t.gpx)));
   setupMapObserver();
