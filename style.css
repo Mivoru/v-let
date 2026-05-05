@@ -368,17 +368,13 @@ main { padding-bottom: 4rem; }
 }
 .trip-card:hover .card-glare { opacity: 1; }
 
-/* Gallery - Holographic 3D Spread */
-
+/* Gallery - 3D Flip Switch */
 .card-gallery {
   position: relative;
   height: 240px;
-  overflow: visible; /* Important for 3D spread */
-  perspective: 1200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000;
+  perspective: 1500px; /* Stronger 3D depth */
+  overflow: visible;
+  background: transparent;
 }
 
 .gallery-inner {
@@ -386,59 +382,46 @@ main { padding-bottom: 4rem; }
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); /* Elastic flip bounce */
+}
+
+.trip-card:hover .gallery-inner {
+  transform: rotateY(180deg);
 }
 
 .gal-img {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  backface-visibility: hidden; /* Hide the back of the image */
   border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
 .gal-img:nth-child(1) {
   z-index: 2;
-  transform: translateZ(20px);
+  transform: rotateY(0deg);
 }
 
 .gal-img:nth-child(2) {
-  z-index: 1;
-  transform: translateZ(0);
+  transform: rotateY(180deg); /* Start flipped */
 }
 
-/* Hologram Effect on Hover */
-.trip-card:hover .gal-img:nth-child(1) {
-  transform: translateX(-25%) rotateY(-20deg) translateZ(50px);
-  box-shadow: -15px 20px 40px rgba(0, 255, 255, 0.2);
-}
-
-.trip-card:hover .gal-img:nth-child(2) {
-  transform: translateX(25%) rotateY(20deg) translateZ(50px);
-  box-shadow: 15px 20px 40px rgba(124, 58, 237, 0.3);
-}
-
-/* Holographic Glow */
+/* Optional: Subtle glow on hover */
 .card-gallery::after {
   content: '';
   position: absolute;
-  bottom: -20px;
-  width: 80%;
-  height: 40px;
-  background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.3), transparent 70%);
-  filter: blur(15px);
+  inset: -10px;
+  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.15), transparent 70%);
   opacity: 0;
-  transition: opacity 0.6s ease;
-  z-index: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: -1;
 }
-
-.trip-card:hover .card-gallery::after {
-  opacity: 1;
-}
+.trip-card:hover .card-gallery::after { opacity: 1; }
 
 /* GPX Leaflet Map */
 .gpx-wrap {
