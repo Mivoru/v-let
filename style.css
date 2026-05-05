@@ -53,31 +53,36 @@ body {
 .hero-bg {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%),
     radial-gradient(ellipse 60% 50% at 80% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 60%),
-    linear-gradient(160deg, #ffffff 0%, #f0f9ff 100%);
+    linear-gradient(160deg, #f0f7f4 0%, #ffffff 100%);
 }
 
-.hero-bg::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    radial-gradient(100px 60px at 10% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
-    radial-gradient(150px 80px at 40% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
-    radial-gradient(120px 70px at 70% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
-    radial-gradient(200px 100px at 90% 40%, rgba(255,255,255,0.5) 0%, transparent 100%);
-  filter: blur(40px);
-  animation: cloudsMove 20s ease-in-out infinite alternate;
+/* Hero Nature Backdrop */
+.hero-nature {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
-@keyframes cloudsMove {
-  from { transform: translateX(-20px); }
-  to   { transform: translateX(20px); }
+.hn-item {
+  position: absolute;
+  opacity: 0.25;
+  filter: blur(2px);
+  mix-blend-mode: multiply;
+  transition: transform 0.1s ease-out;
 }
+
+.hn-item img { width: 100%; height: auto; }
+
+.hn-rock-1 { bottom: -50px; right: 5%; width: 500px; transform: rotate(-10deg); }
+.hn-rock-2 { top: 5%; left: 5%; width: 350px; transform: rotate(15deg) scaleX(-1); }
+.hn-fern-1 { bottom: 10%; left: 10%; width: 300px; transform: rotate(25deg); opacity: 0.2; }
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 5; /* Above hero nature */
   max-width: 800px;
 }
 
@@ -815,9 +820,9 @@ main { padding-bottom: 4rem; }
   position: fixed;
   pointer-events: none;
   z-index: -1;
-  opacity: 0.6;
+  opacity: 0.4; /* Lower default opacity */
   filter: blur(1px);
-  mix-blend-mode: multiply; /* Works best on light background */
+  mix-blend-mode: multiply;
 }
 
 .deco-item img {
@@ -835,39 +840,18 @@ main { padding-bottom: 4rem; }
   z-index: -2;
 }
 
-.deco-fern-1 {
-  bottom: -50px;
-  left: -100px;
-  width: 400px;
-  transform: rotate(15deg);
-  animation: sway 8s ease-in-out infinite alternate;
-}
+.deco-rocks-1 { bottom: -100px; right: -50px; width: 600px; z-index: -1; opacity: 0.2; transform: rotate(-10deg); }
+.deco-rocks-2 { top: 10%; left: -100px; width: 400px; z-index: -1; opacity: 0.15; transform: rotate(20deg) scaleX(-1); }
 
-.deco-fern-2 {
-  bottom: 10%;
-  right: -150px;
-  width: 350px;
-  transform: rotate(-25deg) scaleX(-1);
-  animation: sway 10s ease-in-out infinite alternate-reverse;
-}
+.deco-fern-1 { bottom: -80px; left: -120px; width: 450px; transform: rotate(15deg); animation: sway 8s ease-in-out infinite alternate; opacity: 0.3; }
+.deco-fern-2 { bottom: 20%; right: -180px; width: 400px; transform: rotate(-25deg) scaleX(-1); animation: sway 10s ease-in-out infinite alternate-reverse; opacity: 0.25; }
+.deco-fern-3 { top: 15%; left: 10%; width: 300px; transform: rotate(40deg); opacity: 0.1; filter: blur(2px); animation: sway 15s ease-in-out infinite alternate; }
+.deco-fern-4 { top: 40%; right: 5%; width: 250px; transform: rotate(-45deg); opacity: 0.1; filter: blur(2px); animation: sway 20s ease-in-out infinite alternate-reverse; }
 
-.deco-pine-1 {
-  top: 10%;
-  left: -120px;
-  width: 300px;
-  transform: rotate(45deg);
-  opacity: 0.4;
-  animation: sway 12s ease-in-out infinite alternate;
-}
-
-.deco-pine-2 {
-  top: 40%;
-  right: -80px;
-  width: 250px;
-  transform: rotate(-15deg);
-  opacity: 0.3;
-  animation: sway 9s ease-in-out infinite alternate;
-}
+.deco-pine-1 { top: -50px; left: -100px; width: 400px; transform: rotate(45deg); opacity: 0.25; animation: sway 12s ease-in-out infinite alternate; }
+.deco-pine-2 { top: 50%; right: -100px; width: 300px; transform: rotate(-15deg); opacity: 0.2; animation: sway 9s ease-in-out infinite alternate; }
+.deco-pine-3 { bottom: 15%; left: -80px; width: 350px; transform: rotate(110deg); opacity: 0.15; animation: sway 14s ease-in-out infinite alternate; }
+.deco-pine-4 { bottom: 5%; right: 5%; width: 400px; transform: rotate(-30deg); opacity: 0.1; animation: sway 11s ease-in-out infinite alternate-reverse; }
 
 @keyframes sway {
   0%   { transform: rotate(var(--rot-base, 0deg)) translateY(0); }

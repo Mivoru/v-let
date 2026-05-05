@@ -516,20 +516,28 @@ function initScrollParallax() {
       const ty = scrollY * 0.4;
       if (heroContent) { heroContent.style.transform = `translateY(${ty}px)`; heroContent.style.opacity = op; }
       if (bentoGrid) { bentoGrid.style.transform = `translateY(${ty * 1.2}px)`; bentoGrid.style.opacity = op; }
+      
+      // Hero Nature Specific Parallax
+      const hnRocks1 = document.querySelector('.hn-rock-1');
+      const hnRocks2 = document.querySelector('.hn-rock-2');
+      const hnFern1 = document.querySelector('.hn-fern-1');
+      if (hnRocks1) hnRocks1.style.transform = `translateY(${scrollY * 0.15}px) rotate(-10deg)`;
+      if (hnRocks2) hnRocks2.style.transform = `translateY(${scrollY * 0.1}px) rotate(15deg) scaleX(-1)`;
+      if (hnFern1)  hnFern1.style.transform  = `translateY(${scrollY * 0.25}px) rotate(25deg)`;
     }
 
-    // Nature Parallax (varied speeds for 3D feel)
-    if (decoMountains) decoMountains.style.transform = `translateY(${scrollY * 0.1}px)`;
-    if (decoRocks1)    decoRocks1.style.transform    = `translateY(${scrollY * -0.2}px) rotate(-10deg)`;
-    if (decoRocks2)    decoRocks2.style.transform    = `translateY(${scrollY * 0.15}px) rotate(20deg) scaleX(-1)`;
-    if (decoFern1)     decoFern1.style.transform     = `translateY(${scrollY * -0.15}px) rotate(15deg)`;
-    if (decoFern2)     decoFern2.style.transform     = `translateY(${scrollY * -0.08}px) rotate(-25deg) scaleX(-1)`;
-    if (decoFern3)     decoFern3.style.transform     = `translateY(${scrollY * -0.12}px) rotate(40deg)`;
-    if (decoFern4)     decoFern4.style.transform     = `translateY(${scrollY * -0.25}px) rotate(-45deg) scaleX(-1)`;
-    if (decoPine1)     decoPine1.style.transform     = `translateY(${scrollY * 0.2}px) rotate(45deg)`;
-    if (decoPine2)     decoPine2.style.transform     = `translateY(${scrollY * 0.12}px) rotate(-15deg)`;
-    if (decoPine3)     decoPine3.style.transform     = `translateY(${scrollY * 0.18}px) rotate(110deg)`;
-    if (decoPine4)     decoPine4.style.transform     = `translateY(${scrollY * 0.05}px) rotate(-30deg)`;
+    // Nature Parallax (Subtle to avoid covering text)
+    if (decoMountains) decoMountains.style.transform = `translateY(${scrollY * 0.05}px)`;
+    if (decoRocks1)    decoRocks1.style.transform    = `translateY(${scrollY * -0.08}px) rotate(-10deg)`;
+    if (decoRocks2)    decoRocks2.style.transform    = `translateY(${scrollY * 0.04}px) rotate(20deg) scaleX(-1)`;
+    if (decoFern1)     decoFern1.style.transform     = `translateY(${scrollY * -0.05}px) rotate(15deg)`;
+    if (decoFern2)     decoFern2.style.transform     = `translateY(${scrollY * -0.03}px) rotate(-25deg) scaleX(-1)`;
+    if (decoFern3)     decoFern3.style.transform     = `translateY(${scrollY * -0.04}px) rotate(40deg)`;
+    if (decoFern4)     decoFern4.style.transform     = `translateY(${scrollY * -0.1}px) rotate(-45deg) scaleX(-1)`;
+    if (decoPine1)     decoPine1.style.transform     = `translateY(${scrollY * 0.08}px) rotate(45deg)`;
+    if (decoPine2)     decoPine2.style.transform     = `translateY(${scrollY * 0.04}px) rotate(-15deg)`;
+    if (decoPine3)     decoPine3.style.transform     = `translateY(${scrollY * 0.06}px) rotate(110deg)`;
+    if (decoPine4)     decoPine4.style.transform     = `translateY(${scrollY * 0.02}px) rotate(-30deg)`;
   }, { passive: true });
 }
 
