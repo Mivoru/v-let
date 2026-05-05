@@ -9,26 +9,6 @@ const TRIPS = [
 ];
 
 // ============================================================
-//  GALLERY
-// ============================================================
-const galState = { 1: 0, 2: 0, 3: 0, 4: 0 };
-
-function setGal(id, idx) {
-  const inner = document.getElementById('gal-' + id);
-  if (!inner) return;
-  const imgs = inner.querySelectorAll('.gal-img');
-  idx = ((idx % imgs.length) + imgs.length) % imgs.length;
-  galState[id] = idx;
-  inner.style.transform = `translateX(-${idx * 50}%)`;
-  for (let i = 0; i < imgs.length; i++) {
-    const d = document.getElementById(`gd-${id}-${i}`);
-    if (d) d.classList.toggle('active', i === idx);
-  }
-}
-function galNext(id) { setGal(id, galState[id] + 1); }
-function galPrev(id) { setGal(id, galState[id] - 1); }
-
-// ============================================================
 //  WEATHER API
 // ============================================================
 const OWM_API_KEY = 'dda6c46e74b95dbeffeb910168f345c5';
@@ -75,44 +55,78 @@ async function fetchWeather() {
 // ============================================================
 //  GPX PARSER & ELEVATION
 // ============================================================
+function getDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+}
+
 async function fetchGPX(file) {
   try {
     const res = await fetch(file);
     if (!res.ok) throw new Error('failed');
     const text = await res.text();
     const xml = new DOMParser().parseFromString(text, 'text/xml');
+    
+    let totalDist = 0;
+    let lastLat = null, lastLon = null;
+    
     return [...xml.querySelectorAll('trkpt')].map(pt => {
+      const lat = parseFloat(pt.getAttribute('lat'));
+      const lon = parseFloat(pt.getAttribute('lon'));
       const ele = pt.querySelector('ele');
-      return [
-        parseFloat(pt.getAttribute('lat')),
-        parseFloat(pt.getAttribute('lon')),
-        ele ? parseFloat(ele.textContent) : 0
-      ];
+      
+      if (lastLat !== null) {
+        totalDist += getDistance(lastLat, lastLon, lat, lon);
+      }
+      lastLat = lat; lastLon = lon;
+      
+      return {
+        lat, lon,
+        ele: ele ? parseFloat(ele.textContent) : 0,
+        dist: totalDist
+      };
     });
   } catch { return []; }
 }
 
-function drawElevationChart(id, eles) {
+function drawElevationChart(id, pts) {
   const ctx = document.getElementById('ele-' + id);
-  if (!ctx || !eles.length || !window.Chart) return;
-  const step = Math.max(1, Math.floor(eles.length / 100));
-  const data = eles.filter((_, i) => i % step === 0);
+  if (!ctx || !pts.length || !window.Chart) return;
+  const step = Math.max(1, Math.floor(pts.length / 100));
+  const dataPts = pts.filter((_, i) => i % step === 0);
   new Chart(ctx, {
     type: 'line',
     data: {
-      labels: data.map((_, i) => i),
+      labels: dataPts.map(p => p.dist.toFixed(1) + ' km'),
       datasets: [{
-        data,
-        borderColor: 'rgba(124,58,237,0.8)',
-        backgroundColor: 'rgba(124,58,237,0.2)',
-        borderWidth: 1.5, fill: true, pointRadius: 0, tension: 0.3
+        label: 'Výška (m)',
+        data: dataPts.map(p => p.ele),
+        borderColor: 'rgba(124,58,237,1)',
+        backgroundColor: 'rgba(124,58,237,0.15)',
+        borderWidth: 2, fill: true, pointRadius: 0, tension: 0.3
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { enabled: false } },
-      scales: { x: { display: false }, y: { display: false, min: Math.min(...data) - 50 } },
-      layout: { padding: 0 }
+      plugins: { legend: { display: false } },
+      scales: { 
+        x: { 
+          display: true, 
+          ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 6 },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        }, 
+        y: { 
+          display: true, 
+          ticks: { color: '#94a3b8', font: { size: 10 }, stepSize: 100 },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        } 
+      },
+      layout: { padding: 10 }
     }
   });
 }
@@ -148,9 +162,8 @@ async function initLeafletMap(id, gpxFile) {
     return;
   }
 
-  const latLngs = pts.map(p => [p[0], p[1]]);
-  const eles = pts.map(p => p[2]);
-  drawElevationChart(id, eles);
+  const latLngs = pts.map(p => [p.lat, p.lon]);
+  drawElevationChart(id, pts);
 
   const map = L.map(container, {
     zoomControl: false, attributionControl: true, dragging: false,
