@@ -3,9 +3,9 @@
 // ============================================================
 const TRIPS = [
   { id: 1, name: '🏔️ Saské Švýcarsko – Schmilka', gpx: 'export%20(1).gpx', lat: 50.89, lon: 14.23 },
-  { id: 2, name: '🏰 Kokořínský důl & Hrad Kokořín', gpx: 'export.gpx',       lat: 50.43, lon: 14.63 },
-  { id: 3, name: '🏖️ Máchovo jezero & Bezděz',      gpx: 'export%20(2).gpx', lat: 50.56, lon: 14.65 },
-  { id: 4, name: '🌲 Tolštejn & Jedlová',           gpx: 'export%20(3).gpx', lat: 50.86, lon: 14.56 },
+  { id: 2, name: '🏰 Kokořínský důl & Hrad Kokořín', gpx: 'export.gpx', lat: 50.43, lon: 14.63 },
+  { id: 3, name: '🏖️ Máchovo jezero & Bezděz', gpx: 'export%20(2).gpx', lat: 50.56, lon: 14.65 },
+  { id: 4, name: '🌲 Tolštejn & Jedlová', gpx: 'export%20(3).gpx', lat: 50.86, lon: 14.56 },
 ];
 
 // ============================================================
@@ -21,7 +21,7 @@ async function fetchWeather() {
     try {
       const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${t.lat}&lon=${t.lon}&appid=${OWM_API_KEY}&units=metric&lang=cz`);
       const data = await res.json();
-      
+
       const daily = {};
       data.list.forEach(item => {
         const date = item.dt_txt.split(' ')[0];
@@ -44,7 +44,7 @@ async function fetchWeather() {
           </div>
         `;
       }).join('');
-      
+
       wrap.innerHTML = itemsHtml;
     } catch (e) {
       wrap.innerHTML = '<div class="weather-loading" style="color:#ef4444">Nelze načíst počasí</div>';
@@ -59,10 +59,10 @@ function getDistance(lat1, lon1, lat2, lon2) {
   const R = 6371; // km
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
 
 async function fetchGPX(file) {
@@ -71,20 +71,20 @@ async function fetchGPX(file) {
     if (!res.ok) throw new Error('failed');
     const text = await res.text();
     const xml = new DOMParser().parseFromString(text, 'text/xml');
-    
+
     let totalDist = 0;
     let lastLat = null, lastLon = null;
-    
+
     return [...xml.querySelectorAll('trkpt')].map(pt => {
       const lat = parseFloat(pt.getAttribute('lat'));
       const lon = parseFloat(pt.getAttribute('lon'));
       const ele = pt.querySelector('ele');
-      
+
       if (lastLat !== null) {
         totalDist += getDistance(lastLat, lastLon, lat, lon);
       }
       lastLat = lat; lastLon = lon;
-      
+
       return {
         lat, lon,
         ele: ele ? parseFloat(ele.textContent) : 0,
@@ -114,17 +114,17 @@ function drawElevationChart(id, pts) {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: { 
-        x: { 
-          display: true, 
+      scales: {
+        x: {
+          display: true,
           ticks: { color: '#94a3b8', font: { size: 10 }, maxTicksLimit: 6 },
           grid: { color: 'rgba(255,255,255,0.05)' }
-        }, 
-        y: { 
-          display: true, 
+        },
+        y: {
+          display: true,
           ticks: { color: '#94a3b8', font: { size: 10 }, stepSize: 100 },
           grid: { color: 'rgba(255,255,255,0.05)' }
-        } 
+        }
       },
       layout: { padding: 10 }
     }
@@ -204,7 +204,7 @@ async function initLeafletMap(id, gpxFile) {
   const movMarker = L.marker(latLngs[0], { icon: movIcon, zIndexOffset: 1000 }).addTo(map);
 
   // Sample ~250 points for smooth animation
-  const step    = Math.max(1, Math.floor(latLngs.length / 250));
+  const step = Math.max(1, Math.floor(latLngs.length / 250));
   const sampled = latLngs.filter((_, i) => i % step === 0);
   if (sampled[sampled.length - 1] !== latLngs[latLngs.length - 1])
     sampled.push(latLngs[latLngs.length - 1]);
@@ -216,25 +216,25 @@ function replayMap(id) {
   const s = mapInstances[id];
   if (!s) return;
   if (s.timer) cancelAnimationFrame(s.timer);
-  
+
   s.animPoly.setLatLngs([]);
   s.movMarker.setLatLng(s.sampled[0]);
-  
+
   // Set a slightly further zoom for a better overview during flyby
-  s.map.setZoom(12, { animate: true });
+  s.map.setZoom(10, { animate: true });
 
   let i = 0;
   let lastTime = 0;
-  const DURATION = 12000; // 12 seconds for a slow, cinematic flyby
+  const DURATION = 30000; // 30 seconds - very slow and smooth
   const startTime = performance.now();
 
   function step(currentTime) {
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / DURATION, 1);
-    
+
     // Calculate index based on progress
     const targetIndex = Math.floor(progress * (s.sampled.length - 1));
-    
+
     while (i <= targetIndex) {
       s.animPoly.addLatLng(s.sampled[i]);
       s.movMarker.setLatLng(s.sampled[i]);
@@ -252,7 +252,7 @@ function replayMap(id) {
       }, 500);
     }
   }
-  
+
   s.timer = requestAnimationFrame(step);
 }
 
@@ -303,9 +303,9 @@ function loadLiked() {
 }
 function saveLiked(l) { localStorage.setItem('vylet_liked_2026', JSON.stringify(l)); }
 
-let liked    = loadLiked();
-let counts   = { 1: 0, 2: 0, 3: 0, 4: 0 };
-let fireDb   = null;
+let liked = loadLiked();
+let counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+let fireDb = null;
 let likesRef = null;
 
 function initFirebase() {
@@ -316,7 +316,7 @@ function initFirebase() {
       return;
     }
     firebase.initializeApp(FIREBASE_CONFIG);
-    fireDb   = firebase.database();
+    fireDb = firebase.database();
     likesRef = fireDb.ref('likes');
 
     // 🔴 Real-time listener – všichni vidí změny okamžitě
@@ -331,8 +331,8 @@ function initFirebase() {
 }
 
 async function toggleLike(id) {
-  const btn     = document.getElementById('like-' + id);
-  btn.disabled  = true;
+  const btn = document.getElementById('like-' + id);
+  btn.disabled = true;
   const wasLiked = !!liked[id];
 
   // Optimistická aktualizace UI (okamžitá zpětná vazba)
@@ -372,7 +372,7 @@ async function toggleLike(id) {
 
 function renderButtons() {
   TRIPS.forEach(t => {
-    const btn   = document.getElementById('like-' + t.id);
+    const btn = document.getElementById('like-' + t.id);
     const count = document.getElementById('count-' + t.id);
     if (!btn || !count) return;
     count.textContent = counts[t.id] || 0;
@@ -384,7 +384,7 @@ function renderLeaderboard() {
   const lb = document.getElementById('lb-list');
   if (!lb) return;
   const sorted = [...TRIPS].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
-  const max    = Math.max(1, ...sorted.map(t => counts[t.id] || 0));
+  const max = Math.max(1, ...sorted.map(t => counts[t.id] || 0));
   const medals = ['🥇', '🥈', '🥉', '4️⃣'];
   lb.innerHTML = sorted.map((t, i) => {
     const v = counts[t.id] || 0;
@@ -409,9 +409,9 @@ function spawnConfetti(btn) {
   const cx = left + width / 2, cy = top + height / 2;
   const colors = ['#ef4444', '#f59e0b', '#10b981', '#7c3aed', '#06b6d4', '#fff'];
   for (let i = 0; i < 18; i++) {
-    const dot   = document.createElement('div');
+    const dot = document.createElement('div');
     const angle = (Math.PI * 2 * i / 18) + (Math.random() - 0.5);
-    const dist  = 60 + Math.random() * 80;
+    const dist = 60 + Math.random() * 80;
     dot.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;width:${4 + Math.random() * 6}px;height:${4 + Math.random() * 6}px;background:${colors[i % colors.length]};border-radius:${Math.random() > .5 ? '50%' : '2px'};pointer-events:none;z-index:9999;transform:translate(-50%,-50%)`;
     document.body.appendChild(dot);
     dot.animate([
@@ -453,21 +453,21 @@ function init3DCards() {
       const xc = rect.width / 2, yc = rect.height / 2;
       const rx = -(y - yc) / yc * 8, ry = (x - xc) / xc * 8;
       card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.01,1.01,1.01)`;
-      if(glare) glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.18) 0%, transparent 60%)`;
+      if (glare) glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.18) 0%, transparent 60%)`;
     });
     card.addEventListener('mouseleave', () => {
       card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)`;
-      if(glare) glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 50%)`;
+      if (glare) glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 50%)`;
     });
   });
 }
 
 function initParticles() {
   const cvs = document.getElementById('particles-bg');
-  if(!cvs) return;
+  if (!cvs) return;
   const ctx = cvs.getContext('2d');
   let w = cvs.width = window.innerWidth, h = cvs.height = window.innerHeight;
-  const p = Array.from({length: 40}, () => ({
+  const p = Array.from({ length: 40 }, () => ({
     x: Math.random() * w, y: Math.random() * h,
     r: Math.random() * 2 + 0.5,
     vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
@@ -477,10 +477,10 @@ function initParticles() {
     ctx.clearRect(0, 0, w, h);
     p.forEach(i => {
       i.x += i.vx; i.y += i.vy; i.a += i.da;
-      if(i.a > 1 || i.a < 0) i.da *= -1;
-      if(i.x < 0) i.x = w; if(i.x > w) i.x = 0;
-      if(i.y < 0) i.y = h; if(i.y > h) i.y = 0;
-      ctx.beginPath(); ctx.arc(i.x, i.y, i.r, 0, Math.PI*2);
+      if (i.a > 1 || i.a < 0) i.da *= -1;
+      if (i.x < 0) i.x = w; if (i.x > w) i.x = 0;
+      if (i.y < 0) i.y = h; if (i.y > h) i.y = 0;
+      ctx.beginPath(); ctx.arc(i.x, i.y, i.r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(167, 139, 250, ${Math.max(0, i.a * 0.6)})`; ctx.fill();
     });
     requestAnimationFrame(loop);
@@ -492,18 +492,18 @@ function initParticles() {
 function initScrollParallax() {
   const heroContent = document.querySelector('.hero-content');
   const bentoGrid = document.querySelector('.bento-grid');
-  
+
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
-    if(scrollY < window.innerHeight) {
+    if (scrollY < window.innerHeight) {
       const op = Math.max(0, 1 - (scrollY / 400));
       const ty = scrollY * 0.4;
-      
-      if(heroContent) {
+
+      if (heroContent) {
         heroContent.style.transform = `translateY(${ty}px)`;
         heroContent.style.opacity = op;
       }
-      if(bentoGrid) {
+      if (bentoGrid) {
         bentoGrid.style.transform = `translateY(${ty * 1.2}px)`;
         bentoGrid.style.opacity = op;
       }
