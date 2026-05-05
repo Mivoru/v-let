@@ -297,73 +297,60 @@ const FIREBASE_CONFIG = {
 //  ♥ srdíčko = per-zařízení (localStorage)
 // ============================================================
 
-function loadLiked() {
-  try { return JSON.parse(localStorage.getItem('vylet_liked_2026')) || {}; }
-  catch { return {}; }
-}
-function saveLiked(l) { localStorage.setItem('vylet_liked_2026', JSON.stringify(l)); }
+// ============================================================
+//  LIKE SYSTEM – Local Server (IP based)
+// ============================================================
 
-let liked = loadLiked();
+const API_BASE = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') || window.location.origin.startsWith('http://192.168') 
+  ? '' // Pokud běžíme na stejném serveru, stačí relativní cesta
+  : 'http://localhost:8765'; // Fallback pro vývoj
+
+let liked = {}; // Teď se plní ze serveru podle IP
 let counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
-let fireDb = null;
-let likesRef = null;
 
-function initFirebase() {
+async function syncWithServer() {
   try {
-    // Pokud config není vyplněn → přeskočit
-    if (!FIREBASE_CONFIG.databaseURL || FIREBASE_CONFIG.databaseURL.includes('TVUJ')) {
-      console.info('Firebase: config není nastaven – liky jsou jen lokální.');
-      return;
-    }
-    firebase.initializeApp(FIREBASE_CONFIG);
-    fireDb = firebase.database();
-    likesRef = fireDb.ref('likes');
-
-    // 🔴 Real-time listener – všichni vidí změny okamžitě
-    likesRef.on('value', snapshot => {
-      const data = snapshot.val() || {};
-      TRIPS.forEach(t => { counts[t.id] = data[t.id] || 0; });
-      renderAll();
-    });
+    const res = await fetch(`${API_BASE}/api/likes`);
+    if (!res.ok) return;
+    const data = await res.json();
+    counts = data.counts;
+    liked = data.userLikes;
+    renderAll();
   } catch (e) {
-    console.warn('Firebase init selhal:', e);
+    console.warn('Server není dostupný, používám lokální data.');
   }
 }
 
 async function toggleLike(id) {
   const btn = document.getElementById('like-' + id);
+  if (!btn) return;
   btn.disabled = true;
-  const wasLiked = !!liked[id];
 
-  // Optimistická aktualizace UI (okamžitá zpětná vazba)
-  if (wasLiked) {
-    liked[id] = false;
-    btn.classList.remove('liked', 'just-liked');
-  } else {
-    liked[id] = true;
-    btn.classList.add('liked');
-    btn.classList.remove('just-liked');
-    void btn.offsetWidth;
-    btn.classList.add('just-liked');
-    setTimeout(() => btn.classList.remove('just-liked'), 500);
-    spawnConfetti(btn);
-  }
-  saveLiked(liked);
+  try {
+    const res = await fetch(`${API_BASE}/api/like/${id}`, { method: 'POST' });
+    const data = await res.json();
+    
+    // Server nám řekne, jestli jsme to olajkovali (podle naší IP)
+    liked[id] = data.isLiked;
+    counts[id] = data.count;
 
-  if (likesRef) {
-    // Firebase – atomická transakce (bezpečná při souběžných kliknutích)
-    try {
-      await fireDb.ref(`likes/${id}`).transaction(current =>
-        Math.max(0, (current || 0) + (wasLiked ? -1 : 1))
-      );
-      // Listener výše automaticky překreslí s novým počtem
-    } catch (e) {
-      counts[id] = Math.max(0, counts[id] + (wasLiked ? -1 : 1));
-      renderAll();
+    // Animace
+    if (liked[id]) {
+      btn.classList.add('liked');
+      btn.classList.remove('just-liked');
+      void btn.offsetWidth;
+      btn.classList.add('just-liked');
+      setTimeout(() => btn.classList.remove('just-liked'), 500);
+      spawnConfetti(btn);
+    } else {
+      btn.classList.remove('liked', 'just-liked');
     }
-  } else {
-    // Fallback: žádný server → jen lokálně
-    counts[id] = Math.max(0, counts[id] + (wasLiked ? -1 : 1));
+
+    renderAll();
+  } catch (e) {
+    // Fallback: Pokud server nejede, aspoň to vizuálně přepneme (ale neuloží se to)
+    liked[id] = !liked[id];
+    counts[id] += liked[id] ? 1 : -1;
     renderAll();
   }
 
@@ -550,14 +537,16 @@ document.head.appendChild(markerStyle);
 //  INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  initFirebase();
+  syncWithServer();
+  // Každých 10 sekund zkontroluj nové lajky od ostatních
+  setInterval(syncWithServer, 10000);
+
   renderAll();
   init3DCards();
   initParticles();
   initScrollParallax();
   initScrollAnim();
-  fetchWeather(); // asynchronní načtení počasí
-  // Init all Leaflet maps in parallel
+  fetchWeather();
   await Promise.all(TRIPS.map(t => initLeafletMap(t.id, t.gpx)));
   setupMapObserver();
 });

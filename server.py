@@ -9,10 +9,17 @@ import json, os, socket
 LIKES_FILE = os.path.join(os.path.dirname(__file__), 'likes_data.json')
 
 def load_likes():
+    default_data = {'1': [], '2': [], '3': [], '4': []}
     if os.path.exists(LIKES_FILE):
-        with open(LIKES_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    return {'1': 0, '2': 0, '3': 0, '4': 0}
+        try:
+            with open(LIKES_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                # Kontrola, zda jsou data v novém formátu (seznamy IP)
+                if isinstance(data, dict) and all(isinstance(v, list) for v in data.values()):
+                    return data
+        except Exception:
+            pass
+    return default_data
 
 def save_likes(data):
     with open(LIKES_FILE, 'w', encoding='utf-8') as f:
@@ -38,23 +45,39 @@ class Handler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == '/api/likes':
-            self.send_json(200, load_likes())
+            data = load_likes()
+            # Pro frontend pošleme jen počty a informaci, co olajkovala tato IP
+            client_ip = self.client_address[0]
+            counts = {tid: len(ips) for tid, ips in data.items()}
+            user_likes = {tid: (client_ip in ips) for tid in data.keys()}
+            self.send_json(200, {'counts': counts, 'userLikes': user_likes})
         else:
             super().do_GET()
 
     def do_POST(self):
         if self.path.startswith('/api/like/'):
             trip_id = self.path.rstrip('/').split('/')[-1]
-            length  = int(self.headers.get('Content-Length', 0))
-            payload = json.loads(self.rfile.read(length) or b'{}')
-            data    = load_likes()
-            action  = payload.get('action', 'like')
-            if action == 'like':
-                data[trip_id] = data.get(trip_id, 0) + 1
+            client_ip = self.client_address[0]
+            
+            data = load_likes()
+            if trip_id not in data:
+                data[trip_id] = []
+            
+            if client_ip in data[trip_id]:
+                # Pokud už IP v seznamu je, lajk odebereme (unlike)
+                data[trip_id].remove(client_ip)
+                action = 'unliked'
             else:
-                data[trip_id] = max(0, data.get(trip_id, 0) - 1)
+                # Pokud tam není, přidáme ji
+                data[trip_id].append(client_ip)
+                action = 'liked'
+                
             save_likes(data)
-            self.send_json(200, {'count': data[trip_id]})
+            self.send_json(200, {
+                'count': len(data[trip_id]), 
+                'status': action,
+                'isLiked': action == 'liked'
+            })
 
     def log_message(self, fmt, *args):
         pass  # tiché logování
