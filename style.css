@@ -809,6 +809,78 @@ main { padding-bottom: 4rem; }
 }
 
 /* ==============================
+   NATURE DECORATIONS (3D Parallax)
+   ============================== */
+.deco-item {
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.6;
+  filter: blur(1px);
+  mix-blend-mode: multiply; /* Works best on light background */
+}
+
+.deco-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.deco-mountains {
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  opacity: 0.15;
+  filter: blur(5px);
+  z-index: -2;
+}
+
+.deco-fern-1 {
+  bottom: -50px;
+  left: -100px;
+  width: 400px;
+  transform: rotate(15deg);
+  animation: sway 8s ease-in-out infinite alternate;
+}
+
+.deco-fern-2 {
+  bottom: 10%;
+  right: -150px;
+  width: 350px;
+  transform: rotate(-25deg) scaleX(-1);
+  animation: sway 10s ease-in-out infinite alternate-reverse;
+}
+
+.deco-pine-1 {
+  top: 10%;
+  left: -120px;
+  width: 300px;
+  transform: rotate(45deg);
+  opacity: 0.4;
+  animation: sway 12s ease-in-out infinite alternate;
+}
+
+.deco-pine-2 {
+  top: 40%;
+  right: -80px;
+  width: 250px;
+  transform: rotate(-15deg);
+  opacity: 0.3;
+  animation: sway 9s ease-in-out infinite alternate;
+}
+
+@keyframes sway {
+  0%   { transform: rotate(var(--rot-base, 0deg)) translateY(0); }
+  100% { transform: rotate(calc(var(--rot-base, 0deg) + 5deg)) translateY(-15px); }
+}
+
+/* Set base rotations for sway */
+.deco-fern-1 { --rot-base: 15deg; }
+.deco-fern-2 { --rot-base: -25deg; }
+.deco-pine-1 { --rot-base: 45deg; }
+.deco-pine-2 { --rot-base: -15deg; }
+
+/* ==============================
    ANIMATIONS
    ============================== */
 @keyframes fadeInDown {
