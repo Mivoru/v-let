@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Výlety 2026 – Výběr trasy</title>
+<meta name="description" content="Přehled 4 turistických tras výletů 2026. Porovnej trasy a laikni svůj favorit!">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-badge">🎒 Výlety 2026</span>
+    <h1>Kam vyrazíme?</h1>
+    <p class="hero-sub">4 úžasné trasy, různé krásy. Laikni svůj favorit!</p>
+    <a href="#trips" class="hero-btn">Zobrazit výlety ↓</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><span class="hstat-n">4</span><span class="hstat-l">Trasy</span></div>
+    <div class="hstat"><span class="hstat-n">67 km</span><span class="hstat-l">Celkem</span></div>
+    <div class="hstat"><span class="hstat-n">~21 h</span><span class="hstat-l">Celkový čas</span></div>
+  </div>
+</header>
+
+<main id="trips">
+  <div class="section-head">
+    <h2>Výběr trasy</h2>
+    <p>Klikni na ❤️ a laikni svůj oblíbený výlet!</p>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- KARTA 1 – Saské Švýcarsko -->
+    <article class="trip-card" id="card-1">
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-1">
+          <img src="img/schmilka_labe.jpg" alt="Koryto Labe u Schmilky" class="gal-img">
+          <img src="img/schrammsteine.jpg" alt="Schrammsteine – skalní věže" class="gal-img">
+        </div>
+        <button class="gal-btn gal-prev" onclick="galPrev(1)">‹</button>
+        <button class="gal-btn gal-next" onclick="galNext(1)">›</button>
+        <div class="gal-dots">
+          <span class="gal-dot active" id="gd-1-0"></span>
+          <span class="gal-dot" id="gd-1-1"></span>
+        </div>
+        <div class="card-badge">Výlet č. 1</div>
+        <div class="card-diff diff-hard">Náročná</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">🏔️ Saské Švýcarsko – Schmilka</h3>
+        <p class="card-desc">Ze Schmilky přes skalní labyrint – Gespaltener Kegel, legendární Schrammsteine a zpět Wilder Grundem k Labi.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">12.8 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~500 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">556 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">4:49 h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Schmilka → Gespaltener Kegel → Sandloch → Schrammsteine → Wilder Grund → Schmilka</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(1)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-1" class="gpx-map"></div></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🪨 <strong>Schrammsteine</strong> – legendární skalní labyrint</li>
+            <li>🗼 <strong>Wilder-Grund-Turm</strong> – výhledová věž</li>
+            <li>⛰️ <strong>Gespaltener Kegel</strong> – rozštěpená skalní jehla</li>
+            <li>🌊 <strong>Koryto Labe</strong> – divoká říční krajina</li>
+          </ul>
+        </div>
+        <div class="tickets">
+          <span class="ticket-icon">🆓</span>
+          <div><strong>Vstup do NP Saské Švýcarsko zdarma</strong><br>
+          <span>Národní park, Německo</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://mapy.com/s/hafumehete" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-1" onclick="toggleLike(1)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-1">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- KARTA 2 – Kokořínský důl -->
+    <article class="trip-card" id="card-2">
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-2">
+          <img src="img/kokorin_dul.jpg" alt="Kokořínský důl" class="gal-img">
+          <img src="img/kokorin_hrad.jpg" alt="Hrad Kokořín" class="gal-img">
+        </div>
+        <button class="gal-btn gal-prev" onclick="galPrev(2)">‹</button>
+        <button class="gal-btn gal-next" onclick="galNext(2)">›</button>
+        <div class="gal-dots">
+          <span class="gal-dot active" id="gd-2-0"></span>
+          <span class="gal-dot" id="gd-2-1"></span>
+        </div>
+        <div class="card-badge">Výlet č. 2</div>
+        <div class="card-diff diff-medium">Střední</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">🏰 Kokořínský důl &amp; Hrad Kokořín</h3>
+        <p class="card-desc">Procházka romantickým Kokořínským důlem, pískovcovým skalním městem a návštěva gotického hradu Kokořín.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">14.4 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~120 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">382 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">4:22 h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Mšeno → Pokličky → PR Kokořínský důl → Hrad Kokořín → Kočičina → Mšeno</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(2)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-2" class="gpx-map"></div></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🏯 <strong>Hrad Kokořín</strong> – gotický hrad ze 14. stol.</li>
+            <li>🌿 <strong>PR Kokořínský důl</strong> – přírodní rezervace</li>
+            <li>🪨 <strong>Pokličky</strong> – unikátní pískovcové houby</li>
+            <li>🦇 Skalní jeskyně v pískovci</li>
+          </ul>
+        </div>
+        <div class="tickets">
+          <span class="ticket-icon">🎟️</span>
+          <div><strong>Vstupné – Hrad Kokořín</strong><br>
+          <span>Dospělí: 120 Kč · Studenti: 70 Kč · Děti do 6 let: zdarma</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://mapy.com/s/fazokuranu" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-2" onclick="toggleLike(2)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-2">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- KARTA 3 – Máchovo jezero + Bezděz -->
+    <article class="trip-card" id="card-3">
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-3">
+          <img src="img/machovo.jpg" alt="Máchovo jezero" class="gal-img">
+          <img src="img/bezdez.jpg" alt="Hrad Bezděz" class="gal-img">
+        </div>
+        <button class="gal-btn gal-prev" onclick="galPrev(3)">‹</button>
+        <button class="gal-btn gal-next" onclick="galNext(3)">›</button>
+        <div class="gal-dots">
+          <span class="gal-dot active" id="gd-3-0"></span>
+          <span class="gal-dot" id="gd-3-1"></span>
+        </div>
+        <div class="card-badge">Výlet č. 3</div>
+        <div class="card-diff diff-hard">Náročná</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">🏰 Máchovo jezero &amp; Bezděz</h3>
+        <p class="card-desc">Nejdelší výlet! Okruh kolem Máchova jezera s výstupem na jeden z nejkrásnějších hradů Čech – gotický Bezděz.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">26.1 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~370 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">592 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">7:27 h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Doksy → Staré Splavy → okruh Máchovo jezero → Bezděz → Doksy</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(3)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-3" class="gpx-map"></div></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🏰 <strong>Hrad Bezděz</strong> – královský hrad na sopečném vrchu</li>
+            <li>🏖️ <strong>Máchovo jezero</strong> – největší přírodní koupaliště ČR</li>
+            <li>🌲 CHKO Kokořínsko – Máchův kraj</li>
+            <li>🦅 Panorama přes celé Středohoří</li>
+          </ul>
+        </div>
+        <div class="tickets">
+          <span class="ticket-icon">🎟️</span>
+          <div><strong>Vstupné – Hrad Bezděz</strong><br>
+          <span>Dospělí: 120 Kč · Studenti: 70 Kč · Děti do 6 let: zdarma</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://mapy.com/s/fegeracevu" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-3" onclick="toggleLike(3)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-3">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- KARTA 4 – Tolštejn + Jedlová -->
+    <article class="trip-card" id="card-4">
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-4">
+          <img src="img/tolstejn.jpg" alt="Zřícenina Tolštejn" class="gal-img">
+          <img src="img/jedlova.jpg" alt="Jedlová – rozhledna" class="gal-img">
+        </div>
+        <button class="gal-btn gal-prev" onclick="galPrev(4)">‹</button>
+        <button class="gal-btn gal-next" onclick="galNext(4)">›</button>
+        <div class="gal-dots">
+          <span class="gal-dot active" id="gd-4-0"></span>
+          <span class="gal-dot" id="gd-4-1"></span>
+        </div>
+        <div class="card-badge">Výlet č. 4</div>
+        <div class="card-diff diff-medium">Střední</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">🌲 Tolštejn &amp; Jedlová – Lužické hory</h3>
+        <p class="card-desc">Okruh z Hraničního rybníku na zříceninu hradu Tolštejn, pak na Jedlovou s historickou rozhlednou a zpět.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">14.1 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~300 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">774 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">4:30 h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Hraniční rybník → Tolštejn → Jedlová (rozhledna) → zpět k Hraničnímu rybníku</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(4)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-4" class="gpx-map"></div></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🏰 <strong>Tolštejn</strong> – romantická zřícenina hradu</li>
+            <li>🗼 <strong>Jedlová – rozhledna</strong> – výhled přes Lužické hory</li>
+            <li>🏞️ <strong>Hraniční rybník</strong> – krásné horské jezero</li>
+            <li>🌲 CHKO Lužické hory – divoká příroda</li>
+          </ul>
+        </div>
+        <div class="tickets">
+          <span class="ticket-icon">🎟️</span>
+          <div><strong>Rozhledna Jedlová</strong><br>
+          <span>Dospělí: 40 Kč · Studenti: 20 Kč · Tolštejn: vstup zdarma</span></div>
+        </div>
+        <div class="card-footer">
+          <a href="https://mapy.com/s/cebokahefo" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-4" onclick="toggleLike(4)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-4">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <section class="leaderboard" id="leaderboard">
+    <h2>🏆 Žebříček oblíbenosti</h2>
+    <p class="lb-sub">Výsledky hlasování v reálném čase</p>
+    <div class="lb-list" id="lb-list"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>🎒 Výlety 2026</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
