@@ -170,34 +170,91 @@ function setupMapObserver() {
 }
 
 // ============================================================
-//  LIKE SYSTEM
+//  LIKE SYSTEM – shared counters via CountAPI
+//  Count = global (all browsers)  |  Heart = per-device (localStorage)
 // ============================================================
-function loadState() {
-  try { return JSON.parse(localStorage.getItem('vylet_likes_2026')) || { liked: {}, counts: {} }; }
-  catch { return { liked: {}, counts: {} }; }
+
+// Unique namespace for this project
+const NS = 'vylety2026-xk9m3p';
+const COUNT_BASE = 'https://api.countapi.xyz';
+
+// Per-device liked state
+function loadLiked() {
+  try { return JSON.parse(localStorage.getItem('vylet_liked_2026')) || {}; }
+  catch { return {}; }
 }
-function saveState(s) { localStorage.setItem('vylet_likes_2026', JSON.stringify(s)); }
+function saveLiked(liked) { localStorage.setItem('vylet_liked_2026', JSON.stringify(liked)); }
 
-let state = loadState();
-TRIPS.forEach(t => { if (!state.counts[t.id]) state.counts[t.id] = 0; });
+let liked  = loadLiked();
+let counts = { 1: 0, 2: 0, 3: 0, 4: 0 }; // filled from API
+let apiOk  = false; // whether CountAPI is reachable
 
-function toggleLike(id) {
+// Fetch all counts from CountAPI on startup
+async function fetchAllCounts() {
+  try {
+    const results = await Promise.all(
+      TRIPS.map(t =>
+        fetch(`${COUNT_BASE}/get/${NS}/trip${t.id}`)
+          .then(r => r.json())
+          .catch(() => ({ value: 0 }))
+      )
+    );
+    results.forEach((r, i) => { counts[i + 1] = r.value || 0; });
+    apiOk = true;
+  } catch {
+    // Fallback to localStorage mirror
+    try {
+      const saved = JSON.parse(localStorage.getItem('vylet_counts_2026')) || {};
+      TRIPS.forEach(t => { counts[t.id] = saved[t.id] || 0; });
+    } catch { /* ignore */ }
+  }
+  renderAll();
+}
+
+// Save counts mirror to localStorage as offline fallback
+function saveCounts() {
+  localStorage.setItem('vylet_counts_2026', JSON.stringify(counts));
+}
+
+async function toggleLike(id) {
   const btn = document.getElementById('like-' + id);
-  if (state.liked[id]) {
-    state.liked[id] = false;
-    state.counts[id] = Math.max(0, state.counts[id] - 1);
+  btn.disabled = true; // prevent double-click during request
+
+  if (liked[id]) {
+    // Unlike: decrement
+    liked[id] = false;
     btn.classList.remove('liked', 'just-liked');
+    saveLiked(liked);
+
+    try {
+      const res = await fetch(`${COUNT_BASE}/update/${NS}/trip${id}?amount=-1`);
+      const data = await res.json();
+      counts[id] = Math.max(0, data.value || 0);
+    } catch {
+      counts[id] = Math.max(0, counts[id] - 1);
+    }
   } else {
-    state.liked[id] = true;
-    state.counts[id]++;
+    // Like: increment
+    liked[id] = true;
     btn.classList.add('liked');
     btn.classList.remove('just-liked');
     void btn.offsetWidth;
     btn.classList.add('just-liked');
     setTimeout(() => btn.classList.remove('just-liked'), 500);
+    saveLiked(liked);
     spawnConfetti(btn);
+
+    try {
+      const res = await fetch(`${COUNT_BASE}/hit/${NS}/trip${id}`);
+      const data = await res.json();
+      counts[id] = data.value || counts[id] + 1;
+    } catch {
+      counts[id]++;
+    }
   }
-  saveState(state);
+
+  saveCounts();
+  btn.disabled = false;
   renderAll();
 }
 
@@ -206,19 +263,19 @@ function renderButtons() {
     const btn   = document.getElementById('like-' + t.id);
     const count = document.getElementById('count-' + t.id);
     if (!btn || !count) return;
-    count.textContent = state.counts[t.id] || 0;
-    btn.classList.toggle('liked', !!state.liked[t.id]);
+    count.textContent = counts[t.id] || 0;
+    btn.classList.toggle('liked', !!liked[t.id]);
   });
 }
 
 function renderLeaderboard() {
   const lb = document.getElementById('lb-list');
   if (!lb) return;
-  const sorted = [...TRIPS].sort((a, b) => (state.counts[b.id] || 0) - (state.counts[a.id] || 0));
-  const max    = Math.max(1, ...sorted.map(t => state.counts[t.id] || 0));
+  const sorted = [...TRIPS].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
+  const max    = Math.max(1, ...sorted.map(t => counts[t.id] || 0));
   const medals = ['🥇', '🥈', '🥉', '4️⃣'];
   lb.innerHTML = sorted.map((t, i) => {
-    const v = state.counts[t.id] || 0;
+    const v = counts[t.id] || 0;
     return `<div class="lb-item" style="animation-delay:${i * 0.08}s">
       <div class="lb-rank">${medals[i]}</div>
       <div>
@@ -281,7 +338,8 @@ document.head.appendChild(markerStyle);
 //  INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  renderAll();
+  renderAll();            // show 0 counts immediately
+  fetchAllCounts();       // load shared counts in background (no await – non-blocking)
   initScrollAnim();
   // Init all Leaflet maps in parallel
   await Promise.all(TRIPS.map(t => initLeafletMap(t.id, t.gpx)));
