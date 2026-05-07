@@ -188,7 +188,7 @@ body {
 .hstat-n {
   font-size: 1.8rem;
   font-weight: 900;
-  background: linear-gradient(135deg, #fff, #a78bfa);
+  background: linear-gradient(135deg, #064e3b, #0ea5e9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -216,7 +216,11 @@ main { padding-bottom: 4rem; }
 .section-head h2 {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 900;
-  color: #0f172a;
+  color: #064e3b; /* Fallback */
+  background: linear-gradient(135deg, #064e3b 30%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 0.6rem;
 }
 
@@ -309,8 +313,13 @@ main { padding-bottom: 4rem; }
 .card-title {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #fff;
   line-height: 1.2;
+  color: #064e3b; /* Fallback */
+  background: linear-gradient(135deg, #064e3b 30%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
 }
 
 .card-desc {
@@ -718,7 +727,11 @@ main { padding-bottom: 4rem; }
   text-align: center;
   font-size: 2.2rem;
   font-weight: 900;
-  color: #0f172a;
+  color: #064e3b; /* Fallback */
+  background: linear-gradient(135deg, #064e3b 30%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 0.5rem;
 }
 
@@ -774,8 +787,13 @@ main { padding-bottom: 4rem; }
 
 .lb-name {
   font-weight: 700;
-  color: var(--text);
   font-size: 0.95rem;
+  color: #064e3b; /* Fallback */
+  background: linear-gradient(135deg, #064e3b 30%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
 }
 
 .lb-bar-wrap {
