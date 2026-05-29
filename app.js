@@ -229,7 +229,7 @@ function replayMap(id) {
 
   let i = 0;
   let lastTime = 0;
-  const DURATION = 5000; // 30 seconds - very slow and smooth
+  const DURATION = id >= 5 ? 12000 : 5000; // 12s for 50km+, 5s for standard
   const startTime = performance.now();
 
   function step(currentTime) {
