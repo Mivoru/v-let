@@ -42,7 +42,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: 
-    linear-gradient(rgba(248, 250, 252, 0.65), rgba(248, 250, 252, 0.95)),
+    linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3)),
     url('img/premium_nature_bg.png');
   background-size: cover;
   background-position: center;
@@ -50,8 +50,18 @@ body {
 }
 
 /* ==============================
-   UTILITIES
+   UTILITIES & CANVAS
    ============================== */
+#particles-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .text-gradient {
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   -webkit-background-clip: text;
