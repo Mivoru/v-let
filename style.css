@@ -3,6 +3,7 @@
    ============================== */
 :root {
   --font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Playfair Display', serif;
   --bg-primary: #022c22;
   --bg-secondary: #064e3b;
   --text-primary: #f8fafc;
@@ -41,12 +42,17 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   background-image: 
     linear-gradient(rgba(2, 44, 34, 0.2), rgba(2, 44, 34, 0.6)),
     url('img/premium_nature_bg.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+}
+
+h1, h2, h3, h4, .hero-badge, .card-title {
+  font-family: var(--font-heading);
 }
 
 /* ==============================
@@ -524,11 +530,23 @@ main {
 
 /* Attractions */
 .attractions h4 {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--accent-primary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.attractions h4::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%2334d399" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>');
+  background-size: cover;
 }
 
 .attractions ul {
@@ -546,6 +564,18 @@ main {
   border-radius: var(--radius-sm);
   display: flex;
   align-items: flex-start;
+}
+
+.attractions li::before {
+  content: "";
+  display: inline-block;
+  min-width: 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+  margin-top: 4px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%2310b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>');
+  background-size: cover;
 }
 
 .attractions li strong { color: var(--text-primary); margin-right: 0.25rem; }

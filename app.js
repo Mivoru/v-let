@@ -361,10 +361,8 @@ async function toggleLike(id) {
     renderAll();
   } catch (e) {
     // V případě chyby serveru (fallback)
-    console.warn('Nepodařilo se spojit se serverem.');
-    liked[id] = previousState;
-    counts[id] += previousState ? 1 : -1;
-    renderAll();
+    console.warn('Nepodařilo se spojit se serverem. Lajk uložen pouze lokálně.');
+    // Záměrně NEREVERTUJEME stav, aby web fungoval vizuálně i bez běžícího serveru (demo režim).
   }
 
   btn.disabled = false;
@@ -387,7 +385,7 @@ function renderLeaderboard() {
     const catTrips = TRIPS.filter(t => t.category === category);
     const sorted = [...catTrips].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
     const max = Math.max(1, ...sorted.map(t => counts[t.id] || 0));
-    const medals = ['🥇', '🥈', '🥉', '4️⃣'];
+    const medals = ['<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', '<span style="font-size:12px;font-weight:bold;color:#64748b">4.</span>'];
     lb.innerHTML = sorted.map((t, i) => {
       const v = counts[t.id] || 0;
       return `<div class="lb-item" style="animation-delay:${i * 0.08}s">
