@@ -330,31 +330,40 @@ async function toggleLike(id) {
   if (!btn) return;
   btn.disabled = true;
 
+  // Optimistický UI update (okamžitá reakce)
+  const previousState = !!liked[id];
+  const newLikedState = !previousState;
+  
+  liked[id] = newLikedState;
+  counts[id] += newLikedState ? 1 : -1;
+
+  // Okamžitá animace
+  if (newLikedState) {
+    btn.classList.add('liked');
+    btn.classList.remove('just-liked');
+    void btn.offsetWidth;
+    btn.classList.add('just-liked');
+    setTimeout(() => btn.classList.remove('just-liked'), 500);
+    spawnConfetti(btn);
+  } else {
+    btn.classList.remove('liked', 'just-liked');
+  }
+
+  renderAll(); // Překreslí žebříčky a počítadla ihned
+
   try {
     const res = await fetch(`${API_BASE}/api/like/${id}`, { method: 'POST' });
     const data = await res.json();
     
-    // Server nám řekne, jestli jsme to olajkovali (podle naší IP)
+    // Server potvrdí finální stav
     liked[id] = data.isLiked;
     counts[id] = data.count;
-
-    // Animace
-    if (liked[id]) {
-      btn.classList.add('liked');
-      btn.classList.remove('just-liked');
-      void btn.offsetWidth;
-      btn.classList.add('just-liked');
-      setTimeout(() => btn.classList.remove('just-liked'), 500);
-      spawnConfetti(btn);
-    } else {
-      btn.classList.remove('liked', 'just-liked');
-    }
-
     renderAll();
   } catch (e) {
-    // Fallback: Pokud server nejede, aspoň to vizuálně přepneme (ale neuloží se to)
-    liked[id] = !liked[id];
-    counts[id] += liked[id] ? 1 : -1;
+    // V případě chyby serveru (fallback)
+    console.warn('Nepodařilo se spojit se serverem.');
+    liked[id] = previousState;
+    counts[id] += previousState ? 1 : -1;
     renderAll();
   }
 
