@@ -42,7 +42,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: 
-    linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.8)),
+    linear-gradient(rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.6)),
     url('img/premium_nature_bg.png');
   background-size: cover;
   background-position: center;
@@ -88,7 +88,7 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.7) 100%);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.0) 0%, rgba(15, 23, 42, 0.4) 100%);
   z-index: 0;
 }
 
