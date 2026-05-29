@@ -508,6 +508,14 @@ main {
   z-index: 1;
 }
 
+/* Dark Mode Leaflet Maps */
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
 .ele-wrap {
   height: 120px;
   padding: 0.5rem;
