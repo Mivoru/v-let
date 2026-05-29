@@ -33,43 +33,43 @@
   <!-- Removed Hero Specific Decorations -->
 
   <div class="hero-content">
-    <span class="hero-badge">🎒 Výlety 2026</span>
+    <span class="hero-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg> Výlety 2026</span>
     <h1>Kam vyrazíme?</h1>
     <p class="hero-sub">8 úžasných tras, 2 úrovně obtížnosti. Vyber a laikni svůj favorit!</p>
-    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <a href="#trips" class="hero-btn">🌲 Klasické trasy</a>
-      <a href="#trips-50km" class="hero-btn" style="background: linear-gradient(135deg, #ef4444, #f59e0b); box-shadow: 0 0 40px rgba(239, 68, 68, 0.4);">🔥 Extrémní 50km+</a>
+    <div class="hero-actions">
+      <a href="#trips" class="hero-btn">Klasické trasy</a>
+      <a href="#trips-50km" class="hero-btn btn-extreme">Extrémní 50km+</a>
     </div>
   </div>
   <div class="bento-grid">
-    <div class="bento-box b-tall">
-      <div class="bento-icon">🎒</div>
-      <div class="bento-content">
-        <span class="hstat-n">8</span>
-        <span class="hstat-l">Top Tras</span>
+    <div class="bento-box">
+      <div class="bento-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+      <div class="bento-stat">
+        <div class="hstat-n">8</div>
+        <div class="hstat-l">TOP TRAS</div>
       </div>
     </div>
     <div class="bento-box b-wide">
-      <div class="bento-icon">🥾</div>
-      <div class="bento-content">
-        <span class="hstat-n">284 km</span>
-        <span class="hstat-l">Celková vzdálenost dobrodružství</span>
+      <div class="bento-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></div>
+      <div class="bento-stat">
+        <div class="hstat-n text-gradient">284 <span style="font-size: 0.5em">km</span></div>
+        <div class="hstat-l">CELKOVÁ VZDÁLENOST DOBRODRUŽSTVÍ</div>
       </div>
     </div>
     <div class="bento-box">
-      <div class="bento-icon">⏱️</div>
-      <div class="bento-content">
-        <span class="hstat-n">79 h</span>
-        <span class="hstat-l">Čistého času na cestě</span>
+      <div class="bento-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="bento-stat">
+        <div class="hstat-n">79 <span style="font-size: 0.5em">h</span></div>
+        <div class="hstat-l">ČISTÉHO ČASU NA CESTĚ</div>
       </div>
     </div>
   </div>
 </header>
 
 <main id="trips">
-  <div class="section-head">
+  <div class="section-head" id="trips">
     <h2>Výběr trasy</h2>
-    <p>Klikni na ❤️ a laikni svůj oblíbený výlet!</p>
+    <p>Klikni na tlačítko srdíčka a laikni svůj oblíbený výlet!</p>
   </div>
 
   <div class="cards-grid">
@@ -86,13 +86,13 @@
         <div class="card-diff diff-hard">Náročná</div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">🏔️ Saské Švýcarsko – Schmilka</h3>
+        <h3 class="card-title">Saské Švýcarsko – Schmilka</h3>
         <p class="card-desc">Ze Schmilky přes skalní labyrint – Gespaltener Kegel, legendární Schrammsteine a zpět Wilder Grundem k Labi.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">12.8 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~500 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">12.8 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">~500 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">556 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">4:49 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">4:49 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -118,9 +118,9 @@
         </div>
         <div id="weather-1" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/fegeracevu" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/fegeracevu" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-1" onclick="toggleLike(1)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-1">0</span>
           </button>
         </div>
@@ -139,13 +139,13 @@
         <div class="card-diff diff-medium">Střední</div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">🏰 Kokořínský důl &amp; Hrad Kokořín</h3>
+        <h3 class="card-title">Kokořínský důl & Hrad Kokořín</h3>
         <p class="card-desc">Procházka romantickým Kokořínským důlem, pískovcovým skalním městem a návštěva gotického hradu Kokořín.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">14.4 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~120 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">14.4 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">~120 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">382 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">4:22 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">4:22 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -171,9 +171,9 @@
         </div>
         <div id="weather-2" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/cebokahefo" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/cebokahefo" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-2" onclick="toggleLike(2)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-2">0</span>
           </button>
         </div>
@@ -192,13 +192,13 @@
         <div class="card-diff diff-hard">Náročná</div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">🏰 Máchovo jezero &amp; Bezděz</h3>
-        <p class="card-desc">Nejdelší výlet! Okruh kolem Máchova jezera s výstupem na jeden z nejkrásnějších hradů Čech – gotický Bezděz.</p>
+        <h3 class="card-title">Máchovo jezero & Bezděz</h3>
+        <p class="card-desc">Příjemný okruh kolem Máchova jezera s výstupem na jeden z nejkrásnějších hradů Čech – gotický Bezděz.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">26.1 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~370 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">26.1 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">~370 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">592 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">7:27 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">7:27 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -214,7 +214,7 @@
           <ul>
             <li>🏰 <strong>Hrad Bezděz</strong> – královský hrad na sopečném vrchu</li>
             <li>🏖️ <strong>Máchovo jezero</strong> – největší přírodní koupaliště ČR</li>
-            <li>🌲 CHKO Kokořínsko – Máchův kraj</li>
+            <li>CHKO Kokořínsko – Máchův kraj</li>
             <li>🦅 Panorama přes celé Středohoří</li>
           </ul>
         </div>
@@ -224,9 +224,9 @@
         </div>
         <div id="weather-3" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/fazokuranu" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/fazokuranu" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-3" onclick="toggleLike(3)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-3">0</span>
           </button>
         </div>
@@ -245,13 +245,13 @@
         <div class="card-diff diff-medium">Střední</div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">🌲 Tolštejn &amp; Jedlová – Lužické hory</h3>
+        <h3 class="card-title">Tolštejn & Jedlová – Lužické hory</h3>
         <p class="card-desc">Okruh z Hraničního rybníku na zříceninu hradu Tolštejn, pak na Jedlovou s historickou rozhlednou a zpět.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">14.1 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~300 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">14.1 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">~300 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">774 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">4:30 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">4:30 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -268,7 +268,7 @@
             <li>🏰 <strong>Tolštejn</strong> – romantická zřícenina hradu</li>
             <li>🗼 <strong>Jedlová – rozhledna</strong> – výhled přes Lužické hory</li>
             <li>🏞️ <strong>Hraniční rybník</strong> – krásné horské jezero</li>
-            <li>🌲 CHKO Lužické hory – divoká příroda</li>
+            <li>CHKO Lužické hory – divoká příroda</li>
           </ul>
         </div>
         <div class="tickets">
@@ -277,9 +277,9 @@
         </div>
         <div id="weather-4" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/hafumehete" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/hafumehete" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-4" onclick="toggleLike(4)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-4">0</span>
           </button>
         </div>
@@ -289,7 +289,7 @@
   </div>
 
   <div class="section-head" id="trips-50km">
-    <h2>🔥 Extrémní výlety 50km+</h2>
+    <h2>Extrémní výlety 50km+</h2>
     <p>Výzva pro ty nejodolnější! Hlasuj pro svůj oblíbený dálkový pochod.</p>
   </div>
 
@@ -306,13 +306,13 @@
         <div class="card-diff diff-extreme">Extrémní</div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">⛰️ Liberec – N. Bor</h3>
-        <p class="card-desc">Přechod z Liberce přes Ještědský hřbet, Máchův kraj až do Nového Boru.</p>
+        <h3 class="card-title">Ještěd – Nový Bor</h3>
+        <p class="card-desc">Extrémní pochod z Liberce do Nového Boru. Trasa přes Ještěd, Holubník, Osečnou a Zákupy až k cíli ve Sloupu v Čechách.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">60.3 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">1338 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">60.3 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">1338 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">890 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">16 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">16 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -334,9 +334,9 @@
         </div>
         <div id="weather-5" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/bacebefoke" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/bacebefoke" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-5" onclick="toggleLike(5)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-5">0</span>
           </button>
         </div>
@@ -355,13 +355,13 @@
         <div class="card-diff diff-extreme">Extrémní</div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">🌲 Hřensko – N. Bor</h3>
+        <h3 class="card-title">Hřensko – N. Bor</h3>
         <p class="card-desc">Túra národním parkem České Švýcarsko a Lužickými horami přes ikonické skalní vyhlídky.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">51.6 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">1688 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">51.6 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">1688 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">735 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">14 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">14 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -378,14 +378,14 @@
             <li>🪨 <strong>České Švýcarsko</strong> – pískovcové stěny a soutěsky</li>
             <li>⛰️ <strong>Jetřichovické vyhlídky</strong> – Mariina skála</li>
             <li>🗼 <strong>Studenec</strong> – rozhledna s kruhovým výhledem</li>
-            <li>🌲 <strong>Lužické hory</strong> – klidné lesní úseky</li>
+            <li><strong>Lužické hory</strong> – klidné lesní úseky</li>
           </ul>
         </div>
         <div id="weather-6" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/ceguhobumo" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/ceguhobumo" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-6" onclick="toggleLike(6)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-6">0</span>
           </button>
         </div>
@@ -407,10 +407,10 @@
         <h3 class="card-title">🏰 Krompach – N. Bor</h3>
         <p class="card-desc">Přes hranice k magickému Oybinu, zdolání nejvyšší hory Luže a dalších vrcholů Lužických hor.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">57.8 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">2151 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">57.8 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">2151 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">790 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">16 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">16 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -427,14 +427,14 @@
             <li>🏰 <strong>Oybin</strong> – zřícenina kláštera na skále</li>
             <li>⛰️ <strong>Luž</strong> – nejvyšší vrchol Lužických hor</li>
             <li>🗼 <strong>Jedlová a Tolštejn</strong> – oblíbené dominanty</li>
-            <li>🌲 <strong>Kamzičí vrch</strong> – tajuplné hvozdy</li>
+            <li><strong>Kamzičí vrch</strong> – tajuplné hvozdy</li>
           </ul>
         </div>
         <div id="weather-7" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/lahekujapu" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/lahekujapu" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-7" onclick="toggleLike(7)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-7">0</span>
           </button>
         </div>
@@ -453,13 +453,13 @@
         <div class="card-diff diff-extreme">Extrémní</div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">🏖️ Bělá p. B. – N. Bor</h3>
-        <p class="card-desc">Placatější, ale vytrvalostní pochod přes hrady, jezera a pískovcové věže do cíle.</p>
+        <h3 class="card-title">Bělá pod Bezdězem – Nový Bor</h3>
+        <p class="card-desc">Nejdelší trasa! Start z Bělé pod Bezdězem přes Máchův kraj a Provodínské kameny, zakončená příchodem do Boru.</p>
         <div class="stats-row">
-          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">59.6 km</span><span class="stat-key">Délka</span></div>
-          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">854 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">59.6 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">854 m</span><span class="stat-key">Převýšení</span></div>
           <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">601 m</span><span class="stat-key">Max. výška</span></div>
-          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">15 h</span><span class="stat-key">Čas</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">15 h</span><span class="stat-key">Čas</span></div>
         </div>
         <div class="route-path">
           <span class="rp-label">🗺️ Trasa:</span>
@@ -481,9 +481,9 @@
         </div>
         <div id="weather-8" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
         <div class="card-footer">
-          <a href="https://mapy.cz/s/coheguzaha" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <a href="https://mapy.cz/s/coheguzaha" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
           <button class="like-btn" id="like-8" onclick="toggleLike(8)">
-            <span class="like-heart">❤️</span>
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
             <span class="like-count" id="count-8">0</span>
           </button>
         </div>
@@ -493,13 +493,13 @@
 
   <section class="leaderboards-container">
     <div class="leaderboard" id="leaderboard-std">
-      <h2>🏆 Žebříček (Klasika)</h2>
+      <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Žebříček (Klasika)</h2>
       <p class="lb-sub">Krátké a střední výlety</p>
       <div class="lb-list" id="lb-list"></div>
     </div>
     
     <div class="leaderboard" id="leaderboard-50km">
-      <h2>🔥 Žebříček (50km+)</h2>
+      <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>Žebříček (50km+)</h2>
       <p class="lb-sub">Extrémní pochody</p>
       <div class="lb-list" id="lb-list-50km"></div>
     </div>
@@ -507,7 +507,7 @@
 </main>
 
 <footer class="site-footer">
-  <p>🎒 Výlety 2026</p>
+  <p>Výlety 2026</p>
 </footer>
 
 <script src="app.js?v=8"></script>
