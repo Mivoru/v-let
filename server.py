@@ -9,13 +9,17 @@ import json, os, socket
 LIKES_FILE = os.path.join(os.path.dirname(__file__), 'likes_data.json')
 
 def load_likes():
-    default_data = {'1': [], '2': [], '3': [], '4': []}
+    default_data = {'1': [], '2': [], '3': [], '4': [], '5': [], '6': [], '7': [], '8': []}
     if os.path.exists(LIKES_FILE):
         try:
             with open(LIKES_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 # Kontrola, zda jsou data v novém formátu (seznamy IP)
                 if isinstance(data, dict) and all(isinstance(v, list) for v in data.values()):
+                    # Přidání nových klíčů pro 50km výlety, pokud ještě neexistují
+                    for k in default_data:
+                        if k not in data:
+                            data[k] = []
                     return data
         except Exception:
             pass

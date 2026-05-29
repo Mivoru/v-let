@@ -2,10 +2,14 @@
 //  CONFIG
 // ============================================================
 const TRIPS = [
-  { id: 1, name: '🏔️ Saské Švýcarsko – Schmilka', gpx: 'export%20(1).gpx', lat: 50.89, lon: 14.23 },
-  { id: 2, name: '🏰 Kokořínský důl & Hrad Kokořín', gpx: 'export.gpx', lat: 50.43, lon: 14.63 },
-  { id: 3, name: '🏖️ Máchovo jezero & Bezděz', gpx: 'export%20(2).gpx', lat: 50.56, lon: 14.65 },
-  { id: 4, name: '🌲 Tolštejn & Jedlová', gpx: 'export%20(3).gpx', lat: 50.86, lon: 14.56 },
+  { id: 1, name: '🏔️ Saské Švýcarsko – Schmilka', gpx: 'export%20(1).gpx', lat: 50.89, lon: 14.23, category: 'standard' },
+  { id: 2, name: '🏰 Kokořínský důl & Hrad Kokořín', gpx: 'export.gpx', lat: 50.43, lon: 14.63, category: 'standard' },
+  { id: 3, name: '🏖️ Máchovo jezero & Bezděz', gpx: 'export%20(2).gpx', lat: 50.56, lon: 14.65, category: 'standard' },
+  { id: 4, name: '🌲 Tolštejn & Jedlová', gpx: 'export%20(3).gpx', lat: 50.86, lon: 14.56, category: 'standard' },
+  { id: 5, name: '⛰️ Liberec – N. Bor (Ještěd, Ralsko)', gpx: '50km/export%20(1).gpx', lat: 50.73, lon: 15.00, category: '50km' },
+  { id: 6, name: '🌲 Hřensko – N. Bor (České Švýcarsko)', gpx: '50km/export%20(2).gpx', lat: 50.87, lon: 14.24, category: '50km' },
+  { id: 7, name: '🏰 Krompach – N. Bor (Oybin, Luž)', gpx: '50km/export%20(3).gpx', lat: 50.83, lon: 14.69, category: '50km' },
+  { id: 8, name: '🏖️ Bělá p. B. – N. Bor (Bezděz, Sloup)', gpx: '50km/export.gpx', lat: 50.50, lon: 14.80, category: '50km' },
 ];
 
 // ============================================================
@@ -306,7 +310,7 @@ const API_BASE = window.location.origin.includes('localhost') || window.location
   : 'http://localhost:8765'; // Fallback pro vývoj
 
 let liked = {}; // Teď se plní ze serveru podle IP
-let counts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+let counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
 
 async function syncWithServer() {
   try {
@@ -368,22 +372,28 @@ function renderButtons() {
 }
 
 function renderLeaderboard() {
-  const lb = document.getElementById('lb-list');
-  if (!lb) return;
-  const sorted = [...TRIPS].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
-  const max = Math.max(1, ...sorted.map(t => counts[t.id] || 0));
-  const medals = ['🥇', '🥈', '🥉', '4️⃣'];
-  lb.innerHTML = sorted.map((t, i) => {
-    const v = counts[t.id] || 0;
-    return `<div class="lb-item" style="animation-delay:${i * 0.08}s">
-      <div class="lb-rank">${medals[i]}</div>
-      <div>
-        <div class="lb-name">${t.name}</div>
-        <div class="lb-bar-wrap"><div class="lb-bar" style="width:${(v / max) * 100}%"></div></div>
-      </div>
-      <div class="lb-votes">${v} ❤️</div>
-    </div>`;
-  }).join('');
+  const renderCategory = (category, elementId) => {
+    const lb = document.getElementById(elementId);
+    if (!lb) return;
+    const catTrips = TRIPS.filter(t => t.category === category);
+    const sorted = [...catTrips].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
+    const max = Math.max(1, ...sorted.map(t => counts[t.id] || 0));
+    const medals = ['🥇', '🥈', '🥉', '4️⃣'];
+    lb.innerHTML = sorted.map((t, i) => {
+      const v = counts[t.id] || 0;
+      return `<div class="lb-item" style="animation-delay:${i * 0.08}s">
+        <div class="lb-rank">${medals[i]}</div>
+        <div>
+          <div class="lb-name">${t.name}</div>
+          <div class="lb-bar-wrap"><div class="lb-bar" style="width:${(v / max) * 100}%"></div></div>
+        </div>
+        <div class="lb-votes">${v} ❤️</div>
+      </div>`;
+    }).join('');
+  };
+
+  renderCategory('standard', 'lb-list');
+  renderCategory('50km', 'lb-list-50km');
 }
 
 function renderAll() { renderButtons(); renderLeaderboard(); }

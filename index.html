@@ -295,10 +295,221 @@
 
   </div>
 
-  <section class="leaderboard" id="leaderboard">
-    <h2>🏆 Žebříček oblíbenosti</h2>
-    <p class="lb-sub">Výsledky hlasování v reálném čase</p>
-    <div class="lb-list" id="lb-list"></div>
+  <div class="section-head" style="margin-top: 5rem;">
+    <h2>🔥 Extrémní výlety 50km+</h2>
+    <p>Výzva pro ty nejodolnější! Hlasuj pro svůj oblíbený dálkový pochod.</p>
+  </div>
+
+  <div class="cards-grid">
+    <!-- KARTA 5 – Liberec -> N. Bor -->
+    <article class="trip-card" id="card-5">
+      <div class="card-glare"></div>
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-5">
+          <img src="img/jested.jpg" alt="Ještěd" class="gal-img">
+          <img src="img/hamerske_jezero.jpg" alt="Hamerské jezero" class="gal-img">
+        </div>
+        <div class="card-badge">Výlet č. 5</div>
+        <div class="card-diff diff-extreme">Extrémní</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">⛰️ Liberec – N. Bor</h3>
+        <p class="card-desc">Přechod z Liberce přes Ještědský hřbet, Máchův kraj až do Nového Boru.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">~55 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~1800 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">1012 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">15+ h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Liberec → Ještěd → Holubník → Osečná → Hamerské jezero → Ralsko → Zákupy → Sloup v Čechách → N. Bor</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(5)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-5" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-5"></canvas></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🗼 <strong>Ještěd</strong> – ikonický vysílač s výhledy</li>
+            <li>🏖️ <strong>Hamerské jezero</strong> – pískové pláže a borové lesy</li>
+            <li>🏰 <strong>Ralsko</strong> – zřícenina hradu na dominantním kopci</li>
+            <li>🪨 <strong>Sloup v Čechách</strong> – unikátní skalní hrad</li>
+          </ul>
+        </div>
+        <div id="weather-5" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
+        <div class="card-footer">
+          <a href="#" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-5" onclick="toggleLike(5)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-5">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- KARTA 6 – Hřensko -> N. Bor -->
+    <article class="trip-card" id="card-6">
+      <div class="card-glare"></div>
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-6">
+          <img src="img/jetrichovice.jpg" alt="Mariina vyhlídka" class="gal-img">
+          <img src="img/studenec.jpg" alt="Studenec" class="gal-img">
+        </div>
+        <div class="card-badge">Výlet č. 6</div>
+        <div class="card-diff diff-extreme">Extrémní</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">🌲 Hřensko – N. Bor</h3>
+        <p class="card-desc">Túra národním parkem České Švýcarsko a Lužickými horami přes ikonické skalní vyhlídky.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">~52 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~1500 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">736 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">14+ h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Hřensko → NP České Švýcarsko → Jetřichovice → Studenec → Javor → Mlýny → Polevsko → N. Bor</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(6)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-6" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-6"></canvas></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🪨 <strong>České Švýcarsko</strong> – pískovcové stěny a soutěsky</li>
+            <li>⛰️ <strong>Jetřichovické vyhlídky</strong> – Mariina skála</li>
+            <li>🗼 <strong>Studenec</strong> – rozhledna s kruhovým výhledem</li>
+            <li>🌲 <strong>Lužické hory</strong> – klidné lesní úseky</li>
+          </ul>
+        </div>
+        <div id="weather-6" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
+        <div class="card-footer">
+          <a href="#" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-6" onclick="toggleLike(6)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-6">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- KARTA 7 – Krompach -> N. Bor -->
+    <article class="trip-card" id="card-7">
+      <div class="card-glare"></div>
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-7">
+          <img src="img/oybin.jpg" alt="Hrad Oybin" class="gal-img">
+          <img src="img/luz_jedlova.jpg" alt="Výhled z Luže" class="gal-img">
+        </div>
+        <div class="card-badge">Výlet č. 7</div>
+        <div class="card-diff diff-extreme">Extrémní</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">🏰 Krompach – N. Bor</h3>
+        <p class="card-desc">Přes hranice k magickému Oybinu, zdolání nejvyšší hory Luže a dalších vrcholů Lužických hor.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">~56 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~1900 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">793 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">16+ h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Krompach → Hvozd → Oybin → Luž → Tolštejn → Jedlová → Chřibská → Kamzičí vrch → Javor → Polevsko → N. Bor</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(7)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-7" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-7"></canvas></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🏰 <strong>Oybin</strong> – zřícenina kláštera na skále</li>
+            <li>⛰️ <strong>Luž</strong> – nejvyšší vrchol Lužických hor</li>
+            <li>🗼 <strong>Jedlová a Tolštejn</strong> – oblíbené dominanty</li>
+            <li>🌲 <strong>Kamzičí vrch</strong> – tajuplné hvozdy</li>
+          </ul>
+        </div>
+        <div id="weather-7" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
+        <div class="card-footer">
+          <a href="#" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-7" onclick="toggleLike(7)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-7">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- KARTA 8 – Bělá p. Bezdězem -> N. Bor -->
+    <article class="trip-card" id="card-8">
+      <div class="card-glare"></div>
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-8">
+          <img src="img/machovo_jezero_50km.jpg" alt="Máchovo jezero" class="gal-img">
+          <img src="img/sloup.jpg" alt="Sloup v Čechách" class="gal-img">
+        </div>
+        <div class="card-badge">Výlet č. 8</div>
+        <div class="card-diff diff-extreme">Extrémní</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">🏖️ Bělá p. B. – N. Bor</h3>
+        <p class="card-desc">Placatější, ale vytrvalostní pochod přes hrady, jezera a pískovcové věže do cíle.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon">📏</span><span class="stat-val">~54 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon">⛰️</span><span class="stat-val">~800 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">604 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon">⏱️</span><span class="stat-val">13+ h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Bělá pod Bezdězem → Bezděz → Doksy (Máchovo jezero) → Česká Lípa → Sloup v Čechách → N. Bor</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(8)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-8" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-8"></canvas></div>
+        </div>
+        <div class="attractions">
+          <h4>✨ Hlavní atrakce</h4>
+          <ul>
+            <li>🏰 <strong>Bezděz</strong> – král českých hradů</li>
+            <li>🏖️ <strong>Máchovo jezero</strong> – osvěžující zastávka</li>
+            <li>🏙️ <strong>Česká Lípa</strong> – historické město</li>
+            <li>🪨 <strong>Sloup v Čechách</strong> – skalní vyhlídky a hrad</li>
+          </ul>
+        </div>
+        <div id="weather-8" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
+        <div class="card-footer">
+          <a href="#" target="_blank" class="map-btn">🗺️ Otevřít mapu</a>
+          <button class="like-btn" id="like-8" onclick="toggleLike(8)">
+            <span class="like-heart">❤️</span>
+            <span class="like-count" id="count-8">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <section class="leaderboards-container" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+    <div class="leaderboard" id="leaderboard-std" style="flex: 1; min-width: 300px;">
+      <h2>🏆 Žebříček (Klasika)</h2>
+      <p class="lb-sub">Krátké a střední výlety</p>
+      <div class="lb-list" id="lb-list"></div>
+    </div>
+    
+    <div class="leaderboard" id="leaderboard-50km" style="flex: 1; min-width: 300px;">
+      <h2>🔥 Žebříček (50km+)</h2>
+      <p class="lb-sub">Extrémní pochody</p>
+      <div class="lb-list" id="lb-list-50km"></div>
+    </div>
   </section>
 </main>
 
