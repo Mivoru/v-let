@@ -426,38 +426,18 @@ function initScrollAnim() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
+        e.target.classList.add('visible');
         obs.unobserve(e.target);
       }
     });
   }, { threshold: 0.1 });
   document.querySelectorAll('.trip-card').forEach((c, i) => {
-    c.style.cssText += `opacity:0;transform:translateY(40px);transition:opacity .6s ease ${i * .1}s,transform .6s ease ${i * .1}s`;
+    c.style.transitionDelay = `${i * 0.1}s`;
     obs.observe(c);
   });
 }
 
-// ============================================================
-//  PREMIUM: 3D CARD HOVER & PARTICLES
-// ============================================================
-function init3DCards() {
-  document.querySelectorAll('.trip-card').forEach(card => {
-    const glare = card.querySelector('.card-glare');
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left, y = e.clientY - rect.top;
-      const xc = rect.width / 2, yc = rect.height / 2;
-      const rx = -(y - yc) / yc * 8, ry = (x - xc) / xc * 8;
-      card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.01,1.01,1.01)`;
-      if (glare) glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.18) 0%, transparent 60%)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)`;
-      if (glare) glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12) 0%, transparent 50%)`;
-    });
-  });
-}
+// removed init3DCards
 
 function initParticles() {
   const cvs = document.getElementById('particles-bg');
@@ -489,54 +469,7 @@ function initParticles() {
   window.addEventListener('resize', () => { w = cvs.width = window.innerWidth; h = cvs.height = window.innerHeight; });
 }
 
-function initScrollParallax() {
-  const heroContent = document.querySelector('.hero-content');
-  const bentoGrid = document.querySelector('.bento-grid');
-  const decoMountains = document.querySelector('.deco-mountains');
-  const decoRocks1 = document.querySelector('.deco-rocks-1');
-  const decoRocks2 = document.querySelector('.deco-rocks-2');
-  const decoFern1 = document.querySelector('.deco-fern-1');
-  const decoFern2 = document.querySelector('.deco-fern-2');
-  const decoFern3 = document.querySelector('.deco-fern-3');
-  const decoFern4 = document.querySelector('.deco-fern-4');
-  const decoPine1 = document.querySelector('.deco-pine-1');
-  const decoPine2 = document.querySelector('.deco-pine-2');
-  const decoPine3 = document.querySelector('.deco-pine-3');
-  const decoPine4 = document.querySelector('.deco-pine-4');
-
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-
-    // Hero parallax
-    if (scrollY < window.innerHeight * 1.5) {
-      const op = Math.max(0, 1 - (scrollY / 600));
-      const ty = scrollY * 0.4;
-      if (heroContent) { heroContent.style.transform = `translateY(${ty}px)`; heroContent.style.opacity = op; }
-      if (bentoGrid) { bentoGrid.style.transform = `translateY(${ty * 1.2}px)`; bentoGrid.style.opacity = op; }
-      
-      // Hero Nature Specific Parallax
-      const hnRocks1 = document.querySelector('.hn-rock-1');
-      const hnRocks2 = document.querySelector('.hn-rock-2');
-      const hnFern1 = document.querySelector('.hn-fern-1');
-      if (hnRocks1) hnRocks1.style.transform = `translateY(${scrollY * 0.15}px) rotate(-10deg)`;
-      if (hnRocks2) hnRocks2.style.transform = `translateY(${scrollY * 0.1}px) rotate(15deg) scaleX(-1)`;
-      if (hnFern1)  hnFern1.style.transform  = `translateY(${scrollY * 0.25}px) rotate(25deg)`;
-    }
-
-    // Nature Parallax (Subtle to avoid covering text)
-    if (decoMountains) decoMountains.style.transform = `translateY(${scrollY * 0.05}px)`;
-    if (decoRocks1)    decoRocks1.style.transform    = `translateY(${scrollY * -0.08}px) rotate(-10deg)`;
-    if (decoRocks2)    decoRocks2.style.transform    = `translateY(${scrollY * 0.04}px) rotate(20deg) scaleX(-1)`;
-    if (decoFern1)     decoFern1.style.transform     = `translateY(${scrollY * -0.05}px) rotate(15deg)`;
-    if (decoFern2)     decoFern2.style.transform     = `translateY(${scrollY * -0.03}px) rotate(-25deg) scaleX(-1)`;
-    if (decoFern3)     decoFern3.style.transform     = `translateY(${scrollY * -0.04}px) rotate(40deg)`;
-    if (decoFern4)     decoFern4.style.transform     = `translateY(${scrollY * -0.1}px) rotate(-45deg) scaleX(-1)`;
-    if (decoPine1)     decoPine1.style.transform     = `translateY(${scrollY * 0.08}px) rotate(45deg)`;
-    if (decoPine2)     decoPine2.style.transform     = `translateY(${scrollY * 0.04}px) rotate(-15deg)`;
-    if (decoPine3)     decoPine3.style.transform     = `translateY(${scrollY * 0.06}px) rotate(110deg)`;
-    if (decoPine4)     decoPine4.style.transform     = `translateY(${scrollY * 0.02}px) rotate(-30deg)`;
-  }, { passive: true });
-}
+// removed initScrollParallax
 
 // Keyframe for marker pulse (injected into <head>)
 const markerStyle = document.createElement('style');
@@ -552,9 +485,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   setInterval(syncWithServer, 10000);
 
   renderAll();
-  init3DCards();
   initParticles();
-  initScrollParallax();
   initScrollAnim();
   fetchWeather();
   await Promise.all(TRIPS.map(t => initLeafletMap(t.id, t.gpx)));

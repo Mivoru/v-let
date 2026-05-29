@@ -19,28 +19,12 @@
 <body>
 <canvas id="particles-bg"></canvas>
 
-<!-- Nature Decorations (Parallax) -->
-<div class="deco-item deco-mountains"><img src="img/mountains.png" alt=""></div>
-<div class="deco-item deco-rocks-1"><img src="img/rocks.png" alt=""></div>
-<div class="deco-item deco-rocks-2"><img src="img/rocks.png" alt=""></div>
-<div class="deco-item deco-fern-1"><img src="img/fern.png" alt=""></div>
-<div class="deco-item deco-fern-2"><img src="img/fern.png" alt=""></div>
-<div class="deco-item deco-fern-3"><img src="img/fern.png" alt=""></div>
-<div class="deco-item deco-fern-4"><img src="img/fern.png" alt=""></div>
-<div class="deco-item deco-pine-1"><img src="img/pine.png" alt=""></div>
-<div class="deco-item deco-pine-2"><img src="img/pine.png" alt=""></div>
-<div class="deco-item deco-pine-3"><img src="img/pine.png" alt=""></div>
-<div class="deco-item deco-pine-4"><img src="img/pine.png" alt=""></div>
+<!-- Removed Nature Parallax Elements -->
 
 <header class="hero">
   <div class="hero-bg"></div>
   
-  <!-- Hero Specific Decorations -->
-  <div class="hero-nature">
-    <div class="hn-item hn-rock-1"><img src="img/rocks.png" alt=""></div>
-    <div class="hn-item hn-rock-2"><img src="img/rocks.png" alt=""></div>
-    <div class="hn-item hn-fern-1"><img src="img/fern.png" alt=""></div>
-  </div>
+  <!-- Removed Hero Specific Decorations -->
 
   <div class="hero-content">
     <span class="hero-badge">🎒 Výlety 2026</span>
@@ -86,7 +70,7 @@
 
     <!-- KARTA 1 – Saské Švýcarsko -->
     <article class="trip-card" id="card-1">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-1">
           <img src="img/schmilka_labe.jpg" alt="Koryto Labe u Schmilky" class="gal-img">
@@ -139,7 +123,7 @@
 
     <!-- KARTA 2 – Kokořínský důl -->
     <article class="trip-card" id="card-2">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-2">
           <img src="img/kokorin_dul.jpg" alt="Kokořínský důl" class="gal-img">
@@ -192,7 +176,7 @@
 
     <!-- KARTA 3 – Máchovo jezero + Bezděz -->
     <article class="trip-card" id="card-3">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-3">
           <img src="img/machovo.jpg" alt="Máchovo jezero" class="gal-img">
@@ -245,7 +229,7 @@
 
     <!-- KARTA 4 – Tolštejn + Jedlová -->
     <article class="trip-card" id="card-4">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-4">
           <img src="img/tolstejn.jpg" alt="Zřícenina Tolštejn" class="gal-img">
@@ -298,7 +282,7 @@
 
   </div>
 
-  <div class="section-head" id="trips-50km" style="margin-top: 5rem;">
+  <div class="section-head" id="trips-50km">
     <h2>🔥 Extrémní výlety 50km+</h2>
     <p>Výzva pro ty nejodolnější! Hlasuj pro svůj oblíbený dálkový pochod.</p>
   </div>
@@ -306,7 +290,7 @@
   <div class="cards-grid">
     <!-- KARTA 5 – Liberec -> N. Bor -->
     <article class="trip-card" id="card-5">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-5">
           <img src="img/jested.jpg" alt="Ještěd" class="gal-img">
@@ -355,7 +339,7 @@
 
     <!-- KARTA 6 – Hřensko -> N. Bor -->
     <article class="trip-card" id="card-6">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-6">
           <img src="img/jetrichovice.jpg" alt="Mariina vyhlídka" class="gal-img">
@@ -404,7 +388,7 @@
 
     <!-- KARTA 7 – Krompach -> N. Bor -->
     <article class="trip-card" id="card-7">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-7">
           <img src="img/oybin.jpg" alt="Hrad Oybin" class="gal-img">
@@ -453,7 +437,7 @@
 
     <!-- KARTA 8 – Bělá p. Bezdězem -> N. Bor -->
     <article class="trip-card" id="card-8">
-      <div class="card-glare"></div>
+
       <div class="card-gallery">
         <div class="gallery-inner" id="gal-8">
           <img src="img/machovo_jezero_50km.jpg" alt="Máchovo jezero" class="gal-img">
@@ -501,14 +485,14 @@
     </article>
   </div>
 
-  <section class="leaderboards-container" style="display: flex; gap: 2rem; flex-wrap: wrap;">
-    <div class="leaderboard" id="leaderboard-std" style="flex: 1; min-width: 300px;">
+  <section class="leaderboards-container">
+    <div class="leaderboard" id="leaderboard-std">
       <h2>🏆 Žebříček (Klasika)</h2>
       <p class="lb-sub">Krátké a střední výlety</p>
       <div class="lb-list" id="lb-list"></div>
     </div>
     
-    <div class="leaderboard" id="leaderboard-50km" style="flex: 1; min-width: 300px;">
+    <div class="leaderboard" id="leaderboard-50km">
       <h2>🔥 Žebříček (50km+)</h2>
       <p class="lb-sub">Extrémní pochody</p>
       <div class="lb-list" id="lb-list-50km"></div>
@@ -520,6 +504,6 @@
   <p>🎒 Výlety 2026</p>
 </footer>
 
-<script src="app.js?v=4"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
