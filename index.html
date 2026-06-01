@@ -39,6 +39,7 @@
     <div class="hero-actions">
       <a href="#trips" class="hero-btn">Klasické trasy</a>
       <a href="#trips-50km" class="hero-btn btn-extreme">Extrémní 50km+</a>
+      <button class="hero-btn btn-spin" onclick="openSpinModal()">🎡 Kolo štěstí</button>
     </div>
   </div>
   <div class="bento-grid">
@@ -541,14 +542,20 @@
 
   <section class="leaderboards-container">
     <div class="leaderboard" id="leaderboard-std">
-      <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Žebříček (Klasika)</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+        <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Žebříček (Klasika)</h2>
+        <button class="btn-spin" style="padding: 0.5rem 1rem; font-weight:bold; font-size: 0.9rem; border:none; cursor:pointer;" onclick="openSpinModal()">🎡 Zkusit štěstí</button>
+      </div>
       <p class="lb-sub">Krátké a střední výlety</p>
       <div class="lb-list" id="lb-list"></div>
     </div>
     
     <div class="leaderboard" id="leaderboard-50km">
-      <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/></svg>Žebříček (50km+)</h2>
-      <p class="lb-sub">Extrémní pochody</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+        <h2><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 8px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Žebříček (50km+)</h2>
+        <button class="btn-spin" style="padding: 0.5rem 1rem; font-weight:bold; font-size: 0.9rem; border:none; cursor:pointer;" onclick="openSpinModal()">🎡 Zkusit štěstí</button>
+      </div>
+      <p class="lb-sub">Extrémní dálkové pochody</p>
       <div class="lb-list" id="lb-list-50km"></div>
     </div>
   </section>
@@ -558,6 +565,29 @@
   <p>Výlety 2026</p>
 </footer>
 
-<script src="app.js?v=11"></script>
+<!-- Spin Wheel Modal -->
+<div id="spin-modal" class="spin-modal">
+  <div class="spin-modal-content">
+    <button class="spin-close" onclick="closeSpinModal()">&times;</button>
+    <div class="spin-layout">
+      <div class="spin-left">
+        <h2>Vyberte trasy do osudí</h2>
+        <div class="spin-trip-list" id="spin-trip-list">
+          <!-- Checkboxy generované v JS -->
+        </div>
+      </div>
+      <div class="spin-right">
+        <div class="wheel-container">
+          <canvas id="spin-wheel" width="400" height="400"></canvas>
+          <div class="wheel-pointer"></div>
+        </div>
+        <button class="spin-action-btn" id="spin-btn" onclick="spinWheel()">ROZTOČIT KOLO</button>
+        <div id="spin-result" class="spin-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js?v=12"></script>
 </body>
 </html>

@@ -837,3 +837,193 @@ main {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ==============================
+   SPIN WHEEL MODAL
+   ============================== */
+.btn-spin {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border-radius: var(--radius-full);
+}
+.btn-spin:hover {
+  background: linear-gradient(135deg, #34d399, #10b981);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+}
+
+.spin-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(2, 44, 34, 0.95);
+  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+}
+.spin-modal.active {
+  display: flex;
+}
+.spin-modal-content {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  overflow-y: auto;
+}
+.spin-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 2.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.spin-close:hover { color: white; }
+
+.spin-layout {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.spin-left {
+  flex: 1;
+  min-width: 250px;
+}
+.spin-left h2 {
+  font-family: var(--font-heading);
+  color: var(--accent-primary);
+  margin-bottom: 1rem;
+}
+.spin-trip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+.spin-trip-list label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(2, 44, 34, 0.5);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+.spin-trip-list label.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+.spin-trip-list label:hover {
+  background: rgba(16, 185, 129, 0.2);
+}
+.spin-trip-list input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--accent-primary);
+  cursor: pointer;
+}
+
+.spin-right {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 300px;
+}
+.wheel-container {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  aspect-ratio: 1/1;
+  margin-bottom: 2rem;
+}
+#spin-wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  transition: transform 5s cubic-bezier(0.2, 0.8, 0.1, 1);
+}
+.wheel-pointer {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0; 
+  height: 0; 
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 30px solid #ef4444;
+  z-index: 10;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+}
+.spin-action-btn {
+  background: var(--accent-primary);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.1em;
+}
+.spin-action-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+}
+.spin-action-btn:disabled {
+  background: #64748b;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+.spin-result {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fbbf24;
+  text-align: center;
+  min-height: 4rem;
+  font-family: var(--font-heading);
+}
+.spin-result-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  font-size: 1rem;
+  font-family: var(--font-family);
+}
+.spin-result-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+@media (max-width: 768px) {
+  .spin-layout { flex-direction: column; }
+}

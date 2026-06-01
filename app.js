@@ -386,11 +386,16 @@ function renderLeaderboard() {
     const catTrips = TRIPS.filter(t => t.category === category);
     const sorted = [...catTrips].sort((a, b) => (counts[b.id] || 0) - (counts[a.id] || 0));
     const max = Math.max(1, ...sorted.map(t => counts[t.id] || 0));
-    const medals = ['<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', '<span style="font-size:12px;font-weight:bold;color:#64748b">4.</span>'];
+    const getRankHtml = (i) => {
+      if (i === 0) return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>';
+      if (i === 1) return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>';
+      if (i === 2) return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>';
+      return `<span style="font-size:12px;font-weight:bold;color:#64748b">${i + 1}.</span>`;
+    };
     lb.innerHTML = sorted.map((t, i) => {
       const v = counts[t.id] || 0;
       return `<div class="lb-item" style="animation-delay:${i * 0.08}s">
-        <div class="lb-rank">${medals[i]}</div>
+        <div class="lb-rank">${getRankHtml(i)}</div>
         <div>
           <div class="lb-name">${t.name}</div>
           <div class="lb-bar-wrap"><div class="lb-bar" style="width:${(v / max) * 100}%"></div></div>
@@ -487,15 +492,155 @@ document.head.appendChild(markerStyle);
 // ============================================================
 //  INIT
 // ============================================================
-document.addEventListener('DOMContentLoaded', async () => {
-  syncWithServer();
-  // Každých 10 sekund zkontroluj nové lajky od ostatních
-  setInterval(syncWithServer, 10000);
-
-  renderAll();
-  initParticles();
-  initScrollAnim();
+document.addEventListener('DOMContentLoaded', () => {
+  initMaps();
   fetchWeather();
-  await Promise.all(TRIPS.map(t => initLeafletMap(t.id, t.gpx)));
-  setupMapObserver();
+  syncWithServer(); // Zavolá se po načtení
+  setInterval(syncWithServer, 5000); // Polling každých 5 s
 });
+
+// ============================================================
+//  SPIN THE WHEEL LOGIC
+// ============================================================
+let spinSelectedTrips = [];
+let currentRotation = 0;
+let isSpinning = false;
+
+function openSpinModal() {
+  const modal = document.getElementById('spin-modal');
+  modal.classList.add('active');
+  
+  // By default, select all standard + 50km trips
+  if (spinSelectedTrips.length === 0) {
+    spinSelectedTrips = TRIPS.map(t => t.id);
+  }
+  
+  renderSpinTripList();
+  drawWheel();
+  document.getElementById('spin-result').innerHTML = '';
+}
+
+function closeSpinModal() {
+  if (isSpinning) return; // Prevent closing while spinning
+  document.getElementById('spin-modal').classList.remove('active');
+}
+
+function renderSpinTripList() {
+  const list = document.getElementById('spin-trip-list');
+  list.innerHTML = TRIPS.map(t => {
+    const isChecked = spinSelectedTrips.includes(t.id);
+    return `
+      <label class="${isChecked ? 'active' : ''}">
+        <input type="checkbox" value="${t.id}" ${isChecked ? 'checked' : ''} onchange="toggleSpinTrip(${t.id}, this.checked)">
+        <span>Výlet č. ${t.id} - ${t.name.split(' – ')[0]}</span>
+      </label>
+    `;
+  }).join('');
+}
+
+function toggleSpinTrip(id, isChecked) {
+  if (isChecked) {
+    if (!spinSelectedTrips.includes(id)) spinSelectedTrips.push(id);
+  } else {
+    spinSelectedTrips = spinSelectedTrips.filter(t => t !== id);
+  }
+  renderSpinTripList();
+  drawWheel();
+}
+
+const wheelColors = ['#10b981', '#f59e0b', '#3b82f6', '#ec4899', '#8b5cf6', '#ef4444', '#14b8a6', '#f97316', '#6366f1'];
+
+function drawWheel() {
+  const canvas = document.getElementById('spin-wheel');
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+  const radius = width / 2;
+  const center_x = width / 2;
+  const center_y = height / 2;
+
+  ctx.clearRect(0, 0, width, height);
+
+  if (spinSelectedTrips.length === 0) {
+    ctx.fillStyle = '#64748b';
+    ctx.beginPath();
+    ctx.arc(center_x, center_y, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = '20px Outfit';
+    ctx.textAlign = 'center';
+    ctx.fillText('Vyberte trasy', center_x, center_y);
+    return;
+  }
+
+  const arcSize = (2 * Math.PI) / spinSelectedTrips.length;
+
+  spinSelectedTrips.forEach((id, i) => {
+    const angle = i * arcSize;
+    ctx.beginPath();
+    ctx.moveTo(center_x, center_y);
+    ctx.arc(center_x, center_y, radius, angle, angle + arcSize);
+    ctx.fillStyle = wheelColors[i % wheelColors.length];
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.save();
+    ctx.translate(center_x, center_y);
+    ctx.rotate(angle + arcSize / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 24px Outfit';
+    ctx.fillText(`Výlet ${id}`, radius - 20, 10);
+    ctx.restore();
+  });
+}
+
+function spinWheel() {
+  if (isSpinning || spinSelectedTrips.length === 0) return;
+  isSpinning = true;
+  document.getElementById('spin-btn').disabled = true;
+  document.getElementById('spin-result').innerHTML = '';
+
+  const canvas = document.getElementById('spin-wheel');
+  
+  // Pick a random winner
+  const winnerIndex = Math.floor(Math.random() * spinSelectedTrips.length);
+  const winnerId = spinSelectedTrips[winnerIndex];
+  
+  // Calculate angle to stop at the winner
+  // Slices are drawn from 0 to 2*PI. The pointer is at the TOP (-90deg or 270deg relative to canvas rotation 0)
+  const sliceAngle = 360 / spinSelectedTrips.length;
+  // Center of the winning slice
+  const targetSliceCenter = (winnerIndex * sliceAngle) + (sliceAngle / 2);
+  
+  // To bring target slice to the top (which is at -90deg logically, so we need the wheel to be rotated such that targetSliceCenter is at 270deg)
+  const spinSpins = 5; // 5 full rotations minimum
+  const extraRotation = 270 - targetSliceCenter;
+  
+  // Add some random offset within the slice so it doesn't land perfectly in the middle every time
+  const randomOffset = (Math.random() - 0.5) * (sliceAngle * 0.8);
+  
+  const targetRotation = currentRotation + (360 * spinSpins) + extraRotation + randomOffset - (currentRotation % 360);
+  
+  currentRotation = targetRotation;
+  canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+  // Wait for animation to finish (5 seconds as per CSS)
+  setTimeout(() => {
+    isSpinning = false;
+    document.getElementById('spin-btn').disabled = false;
+    
+    const winnerTrip = TRIPS.find(t => t.id === winnerId);
+    
+    // Spawn confetti
+    spawnConfetti();
+    
+    // Show result
+    const resultDiv = document.getElementById('spin-result');
+    resultDiv.innerHTML = `
+      <div>Máte vybráno!</div>
+      <div style="font-size:1.2rem; color:white; margin:0.5rem 0;">Výlet č. ${winnerTrip.id}: ${winnerTrip.name}</div>
+      <a href="#card-${winnerTrip.id}" class="spin-result-btn" onclick="closeSpinModal()">Zobrazit trasu</a>
+    `;
+  }, 5000);
+}
