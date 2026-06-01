@@ -489,6 +489,54 @@
         </div>
       </div>
     </article>
+
+    <!-- KARTA 9 – Ústí n. L. -> Nový Bor -->
+    <article class="trip-card" id="card-9">
+      <div class="card-gallery">
+        <div class="gallery-inner" id="gal-9">
+          <img src="img/jested.jpg" alt="Střekovská vyhlídka" class="gal-img">
+          <img src="img/sloup.jpg" alt="Bobří vodopády" class="gal-img">
+        </div>
+        <div class="card-badge">Výlet č. 9</div>
+        <div class="card-diff diff-extreme">Extrémní</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">Ústí nad Labem – Nový Bor</h3>
+        <p class="card-desc">Náročná trasa z Ústí nad Labem přes Střekovskou vyhlídku, Bukovou horu a Bobří vodopády až do Nového Boru.</p>
+        <div class="stats-row">
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="12" x2="22" y2="12"/><line x1="6" y1="8" x2="6" y2="16"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="18" y1="8" x2="18" y2="16"/></svg></span><span class="stat-val">55.5 km</span><span class="stat-key">Délka</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3l4 8 5-5 5 15H2L8 3z"/></svg></span><span class="stat-val">1366 m</span><span class="stat-key">Převýšení</span></div>
+          <div class="stat-item"><span class="stat-icon">📍</span><span class="stat-val">683 m</span><span class="stat-key">Max. výška</span></div>
+          <div class="stat-item"><span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="stat-val">14 h</span><span class="stat-key">Čas</span></div>
+        </div>
+        <div class="route-path">
+          <span class="rp-label">🗺️ Trasa:</span>
+          <span class="rp-text">Ústí n Labem → Střekovská vyhlídka → Buková hora → Bobří vodopády → Strážný vrch → Žandov → Skalice u Č.L. → Nový Bor</span>
+        </div>
+        <div class="gpx-wrap">
+          <div class="gpx-label">🗺️ Animace trasy &nbsp;<button class="gpx-replay" onclick="replayMap(9)">▶ Přehrát</button></div>
+          <div class="gpx-tilt-wrap"><div id="map-9" class="gpx-map"></div></div>
+          <div class="ele-wrap"><canvas id="ele-9"></canvas></div>
+        </div>
+        <div class="attractions">
+          <h4>Hlavní atrakce</h4>
+          <ul>
+            <li><strong>Střekovská vyhlídka</strong> – úžasný pohled na labské údolí</li>
+            <li><strong>Buková hora</strong> – výrazná dominanta s vysílačem</li>
+            <li><strong>Bobří vodopády</strong> – romantická soutěska a vodopád</li>
+            <li><strong>Strážný vrch</strong> – krásný výhled do krajiny</li>
+          </ul>
+        </div>
+        <div id="weather-9" class="weather-wrap"><div class="weather-loading">Načítám počasí na další dny...</div></div>
+        <div class="card-footer">
+          <a href="https://mapy.com/s/cagoporore" target="_blank" class="map-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;vertical-align:-3px;"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/></svg>Otevřít mapu</a>
+          <button class="like-btn" id="like-9" onclick="toggleLike(9)">
+            <span class="like-heart"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+            <span class="like-count" id="count-9">0</span>
+          </button>
+        </div>
+      </div>
+    </article>
   </div>
 
   <section class="leaderboards-container">
@@ -510,6 +558,6 @@
   <p>Výlety 2026</p>
 </footer>
 
-<script src="app.js?v=10"></script>
+<script src="app.js?v=11"></script>
 </body>
 </html>
