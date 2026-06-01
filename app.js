@@ -492,11 +492,16 @@ document.head.appendChild(markerStyle);
 // ============================================================
 //  INIT
 // ============================================================
-document.addEventListener('DOMContentLoaded', () => {
-  initMaps();
+document.addEventListener('DOMContentLoaded', async () => {
+  syncWithServer();
+  setInterval(syncWithServer, 10000);
+
+  renderAll();
+  initParticles();
+  initScrollAnim();
   fetchWeather();
-  syncWithServer(); // Zavolá se po načtení
-  setInterval(syncWithServer, 5000); // Polling každých 5 s
+  await Promise.all(TRIPS.map(t => initLeafletMap(t.id, t.gpx)));
+  setupMapObserver();
 });
 
 // ============================================================
